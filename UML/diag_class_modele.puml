@@ -1,0 +1,37 @@
+@startuml
+
+class User {
+    login: varchar(20)
+    passwd: varchar(256)
+    email: varchar(256)
+    nomUser: varchar(20)
+    prenomUser: varchar(20)
+    tel: varchar(20)
+    token: varchar(50)
+    privilege: int(2)
+}
+
+class Article {
+    id: bigint
+    titre: text
+    resume: text
+    contenu: longtext
+    img: varchar(128)
+    auteur: longtext
+    idCategorie: bigint
+    created_at: datetime
+    updated_at: datetime
+}
+
+class Categorie {
+    id: bigint
+    titre: text
+    resume: text
+    created_at: datetime
+    updated_at: datetime
+}
+
+User "1" -- "*" Article
+Article "*" -- "1" Categorie
+
+@enduml

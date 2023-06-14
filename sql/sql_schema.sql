@@ -12,7 +12,8 @@ CREATE TABLE `user` (
     `prenomUser` varchar(20) DEFAULT NULL,
     `tel` varchar(20) DEFAULT NULL,
     `token` varchar(50) DEFAULT NULL,
-    `privilege` int(2) NOT NULL DEFAULT 0
+    `privilege` int(2) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`email`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `article`;

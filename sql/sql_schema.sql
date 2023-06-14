@@ -13,7 +13,7 @@ CREATE TABLE `user` (
     `tel` varchar(20) DEFAULT NULL,
     `token` varchar(50) DEFAULT NULL,
     `privilege` int(2) NOT NULL DEFAULT 0,
-    PRIMARY KEY (`email`),
+    PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `article`;

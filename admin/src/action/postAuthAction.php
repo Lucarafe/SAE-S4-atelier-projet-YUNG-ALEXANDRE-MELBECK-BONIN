@@ -4,13 +4,25 @@ namespace MiniPress\app\action;
 
 use MiniPress\app\service\auth\Auth;
 use MiniPress\app\service\auth\exception\AuthException;
-use MiniPress\app\service\injection\exception\injectionException;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Slim\Routing\RouteContext;
 
-
+/**
+ * Action pour traiter la soumission du formulaire de connexion
+ */
 class postAuthAction {
 
-    function __invoke(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args): \Psr\Http\Message\ResponseInterface {
+    /**
+     * Exécute l'action pour traiter la soumission du formulaire de connexion
+     *
+     * @param ServerRequestInterface $request La requête HTTP reçue
+     * @param ResponseInterface $response La réponse HTTP à renvoyer
+     * @param array $args Les arguments de la route
+     * @return ResponseInterface La réponse HTTP redirigeant vers la page des articles
+     */
+    function __invoke(ServerRequestInterface $request,ResponseInterface $response, array $args): ResponseInterface {
+        // Récupère les données soumises dans le formulaire
         $params = $request->getParsedBody();
         $email = $params['email'];
         $psswrd = $params['password'];
@@ -20,11 +32,13 @@ class postAuthAction {
 
         $auth = new Auth();
         try {
+            // Authentifie l'utilisateur
             $auth->authenticate($psswrd, $email);
         } catch (AuthException $e){
+            // En cas d'erreur d'authentification, redirige vers la page de connexion
             $url = $routeParser->urlFor('connection');
         }
-
+        // Redirige vers la page des articles
         return $response->withHeader('Location', $url)->withStatus(302);
     }
 }

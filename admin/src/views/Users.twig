@@ -1,0 +1,15 @@
+{% extends "squelette/main.twig" %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Liste des utilisateurs</h1>
+
+        <ul>
+            {% for user in users %}
+                <li>{{ user.login }} - {{ user.email }} - {{ user.privilege }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

@@ -12,6 +12,7 @@ class User extends Eloq\Model
     public $incrementing = false;
     public $keyType = 'string';
 
+    // retourne les articles de l'utilisateur
     public function articles()
     {
         return $this->hasMany(Article::class, 'email');

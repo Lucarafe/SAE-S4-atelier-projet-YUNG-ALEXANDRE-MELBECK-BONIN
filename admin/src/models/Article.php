@@ -12,11 +12,12 @@ class Article extends Eloq\Model
     public $incrementing = true;
     public $keyType = 'int';
 
+    // retourne la catégorie de l'article
     public function categorie()
     {
         return $this->belongsTo(Categorie::class, 'idCategorie');
     }
-
+    // retourne l'auteur de l'article
     public function user()
     {
         return $this->belongsTo(User::class, 'email');

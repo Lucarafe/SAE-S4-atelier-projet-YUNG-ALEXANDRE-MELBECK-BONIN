@@ -2,10 +2,10 @@
 
 namespace MiniPress\app\action;
 
-use MiniPress\app\service\ArticleNotFoundException;
+use MiniPress\app\service\article\ArticleService;
+use MiniPress\app\service\article\exception\ArticleNotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use MiniPress\app\service\ArticleService;
 use Slim\Views\Twig;
 
 class getArticlesByCategoryAction

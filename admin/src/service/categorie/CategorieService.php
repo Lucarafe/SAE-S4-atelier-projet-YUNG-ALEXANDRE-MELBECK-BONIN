@@ -1,6 +1,6 @@
 <?php
 
-namespace MiniPress\app\service;
+namespace MiniPress\app\service\categorie;
 
 use MiniPress\app\models\Categorie;
 

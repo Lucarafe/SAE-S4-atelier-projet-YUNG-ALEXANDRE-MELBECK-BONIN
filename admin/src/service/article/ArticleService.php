@@ -1,6 +1,6 @@
 <?php
 
-namespace MiniPress\app\service;
+namespace MiniPress\app\service\article;
 
 use MiniPress\app\models\Article;
 

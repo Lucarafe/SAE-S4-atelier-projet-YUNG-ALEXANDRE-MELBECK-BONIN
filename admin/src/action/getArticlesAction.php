@@ -2,7 +2,7 @@
 
 namespace MiniPress\app\action;
 
-use MiniPress\app\service\ArticleService;
+use MiniPress\app\service\article\ArticleService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;

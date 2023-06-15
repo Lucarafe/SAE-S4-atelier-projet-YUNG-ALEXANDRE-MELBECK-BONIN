@@ -8,7 +8,7 @@ use MiniPress\app\service\injection\exception\injectionException;
 use Slim\Routing\RouteContext;
 
 
-class getAuthAction {
+class postAuthAction {
 
     function __invoke(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, array $args): \Psr\Http\Message\ResponseInterface {
         $params = $request->getParsedBody();

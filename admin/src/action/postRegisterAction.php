@@ -10,7 +10,7 @@ use MiniPress\app\service\injection\injection;
 use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
-class getRegisterAction {
+class postRegisterAction {
 
     /**
      * @throws injectionException

@@ -7,7 +7,19 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class getArticlesAction
 {    public function __invoke(Request $request, Response $response): Response  {
+
+    $sort = $request->getQueryParams()['sort'] ?? '';
+
     $articles = \MiniPress\api\models\Article::all();
+
+    // Tri des articles
+    if ($sort === 'date-asc') {
+        $articles = $articles->sortBy('created_at');
+    } elseif ($sort === 'date-desc') {
+        $articles = $articles->sortByDesc('created_at');
+    } elseif ($sort === 'auteur') {
+        $articles = $articles->sortBy('auteur');
+    }
 $data = [
         'type' => 'collection',
         'count' => count($articles),

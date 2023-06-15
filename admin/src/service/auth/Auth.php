@@ -3,6 +3,7 @@ namespace MiniPress\app\service\auth;
 
 use MiniPress\app\models\User;
 use MiniPress\app\service\auth\exception\AuthException;
+use MiniPress\app\service\auth\exception\loginException;
 use MiniPress\app\service\auth\exception\mdpException;
 
 class Auth {
@@ -31,20 +32,19 @@ class Auth {
 
     /**
      * @throws mdpException
+     * @throws loginException
      */
-    function register($email, string $mdp1, string $mdp2, $login = "", $nom = "", $prenom = "", $tel = ""): void
+    function register($email, string $mdp1, string $mdp2, $login): void
     {
         if($mdp1 != $mdp2 || !self::checkPasswordStrength($mdp1, 8)){
             throw new mdpException();
         } else if (!$this->dejaPresent($email)){
+            if($this->LoginPresent($login)) throw new loginException();
             $user = new User();
 
             $user->login = $login;
             $user->passwd = password_hash($mdp1, PASSWORD_DEFAULT, ['cost' => 12]);
             $user->email = $email;
-            $user->nomUser = $nom;
-            $user->prenomUser = $prenom;
-            $user->tel = $tel;
 
             $user->save();
         }
@@ -52,5 +52,9 @@ class Auth {
 
     private function dejaPresent($email) {
         return User::where('email', $email)->exists();
+    }
+
+    private function LoginPresent($log) {
+        return User::where('login', $log)->exists();
     }
 }

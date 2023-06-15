@@ -5,7 +5,7 @@ use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 use Slim\Views\Twig;
 
-class GetFormulaireArticleAction{
+class getFormulaireArticleAction{
 
     public function __invoke(Request $rq, Response $rs, $args):Response{
 

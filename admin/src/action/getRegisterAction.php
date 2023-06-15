@@ -3,8 +3,10 @@
 namespace MiniPress\app\action;
 
 use MiniPress\app\service\auth\Auth;
+use MiniPress\app\service\auth\exception\loginException;
 use MiniPress\app\service\auth\exception\mdpException;
 use MiniPress\app\service\injection\exception\injectionException;
+use MiniPress\app\service\injection\injection;
 use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
@@ -20,20 +22,33 @@ class getRegisterAction {
         $url = $routeParser->urlFor('connection');
 
         $auth = new Auth();
+        $injection = new injection();
 
+        $login = $params['login'] ?? '';
         $email = $params['email'] ?? '';
         $password = $params['password'] ?? '';
         $confirmPassword = $params['confirm-password'] ?? '';
 
         $errors = [];
-        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (empty($email) || !$injection->injectionMail($email)){
             $errors[] = 'Veuillez saisir une adresse email valide.';
         }
+
         if (empty($password) || empty($confirmPassword) || $password !== $confirmPassword) {
             $errors[] = 'Les mots de passe ne correspondent pas.';
         }
         if (!$auth->checkPasswordStrength($password, 8)) {
             $errors[] = 'Mot de passe pas assez fort.';
+        }
+        try{
+            $injection->injectionString($password);
+        } catch (injectionException $e){
+            $errors[] = 'Veuillez saisir un mot de passe valide.';
+        }
+        try{
+            $injection->injectionString($login);
+        } catch (injectionException $e){
+            $errors[] = 'Veuillez saisir un login valide.';
         }
 
         if (!empty($errors)) {
@@ -42,8 +57,10 @@ class getRegisterAction {
         }
 
         try {
-            $auth->register($email, $password, $confirmPassword);
+            $auth->register($email, $password, $confirmPassword, $login);
         } catch (mdpException $e) {
+            $url = $routeParser->urlFor('register');
+        } catch (loginException $e){
             $url = $routeParser->urlFor('register');
         }
 

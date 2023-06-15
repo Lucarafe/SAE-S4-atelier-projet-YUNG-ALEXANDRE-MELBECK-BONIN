@@ -2,14 +2,10 @@
 
 namespace MiniPress\app\conf;
 
-use MiniPress\app\action\deconnexionAction;
 use MiniPress\app\action\getAcceuilAction;
 use MiniPress\app\action\getArticlesAction;
 use MiniPress\app\action\getArticlesByCategoryAction;
-use MiniPress\app\action\getAuthAction;
 use MiniPress\app\action\getFormAuthAction;
-use MiniPress\app\action\getFormRegisterAction;
-use MiniPress\app\action\getRegisterAction;
 
 return function (\Slim\App $app): void {
     $app->get('/', getAcceuilAction::class)
@@ -29,4 +25,8 @@ return function (\Slim\App $app): void {
         ->setName('articlesByCategory');
     $app->get('/articles', getArticlesAction::class)
         ->setName('articles');
+    $app->get('/categories/create[/]', getCreateCategorieFormAction::class)
+        ->setName('categorieForm');
+    $app->post('/categories/create[/]', getCreateCategorieAction::class)
+        ->setName('categorieCreate');
 };

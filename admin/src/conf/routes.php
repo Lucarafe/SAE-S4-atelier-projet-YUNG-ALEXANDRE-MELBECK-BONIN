@@ -3,6 +3,8 @@
 namespace MiniPress\app\conf;
 
 use MiniPress\app\action\getAcceuilAction;
+use MiniPress\app\action\getArticlesAction;
+use MiniPress\app\action\getArticlesByCategoryAction;
 use MiniPress\app\action\getFormAuthAction;
 
 return function (\Slim\App $app): void {
@@ -13,5 +15,8 @@ return function (\Slim\App $app): void {
         ->setName('connection');
     //$app->post('/connection', getAuthAction::class)
     //    ->setName('connection');
-
+    $app->get('/articles/{categorie}', getArticlesByCategoryAction::class)
+        ->setName('articlesByCategory');
+    $app->get('/articles', getArticlesAction::class)
+        ->setName('articles');
 };

@@ -1,0 +1,15 @@
+{% extends "squelette/main.twig" %}
+
+{% block title %}Articles par catégorie{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Articles par catégorie</h1>
+
+        <ul>
+            {% for article in articles %}
+                <li>{{ article.titre }} - {{ article.created_at }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

@@ -14,7 +14,6 @@ class Categorie extends Eloq\Model
 
     public function articles()
     {
-        return $this->hasMany(Article::class);
+        return $this->hasMany(Article::class, 'idCategorie');
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
 namespace MiniPress\app\action;
-use MiniPress\app\service\ArticleService;
+use MiniPress\app\service\article\ArticleService;
 use Slim\Routing\RouteContext;
 
 class postFormulaireArticleAction
@@ -10,11 +10,17 @@ class postFormulaireArticleAction
         $article = $request->getParsedBody();
         $routeContext = RouteContext::fromRequest($request);
         $routeParser = $routeContext->getRouteParser();
+        if(isset($_SESSION['user'])){
+            $auteur = $_SESSION['user']->login;
+        }else{
+            $auteur = "Anonyme";
+        }
         $articleData = [
             'titre' => $article['titre'],
             'resume' => $article['resume'],
             'contenu' => $article['contenu'],
             'categorie' => $article['categorie'],
+            'auteur' => $auteur,
         ];
 
         $articleService = new ArticleService();

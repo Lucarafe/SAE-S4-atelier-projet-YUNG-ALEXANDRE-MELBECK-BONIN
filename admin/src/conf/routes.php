@@ -34,4 +34,5 @@ return function (\Slim\App $app): void {
     $app->get('/articles', getArticlesAction::class)
         ->setName('articles');
     $app->post('/formulaire', postFormulaireArticleAction::class)->setName('articleCreate');
+    $app->get('/formulaire', getFormulaireArticleAction::class)->setName('formulaireArticle');
 };

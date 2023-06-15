@@ -29,7 +29,7 @@ class ArticleService
         $art->contenu = $article['contenu'];
         $art->idCategorie = $article['categorie'];
         $art->img = "";
-        $art->auteur = "";
+        $art->auteur = $article['auteur'];
         $art->save();
         }
     

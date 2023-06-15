@@ -3,17 +3,26 @@
 namespace MiniPress\app\service\article;
 
 use MiniPress\app\models\Article;
-use MiniPress\app\service\auth\exception\ArticleAddFailException;
 
 class ArticleService
 {
 
+    /**
+     * Récupère tous les articles.
+     *
+     * @return array Les articles sous forme de tableau
+     */
     public function getArticles(): array
     {
         return Article::orderBy('created_at', 'desc')->get()->toArray();
     }
 
 
+    /**
+     * Récupère les articles d'une catégorie spécifique.
+     *
+     * @param string $categorie La catégorie des articles à récupérer
+     */
     public function getArticlesByCategory($categorie)
     {
         return Article::whereHas('categorie', function ($query) use ($categorie) {
@@ -21,6 +30,12 @@ class ArticleService
         })->orderBy('created_at', 'desc')->get();
     }
 
+    /**
+     * Ajoute un nouvel article.
+     *
+     * @param array $article Les données de l'article à ajouter
+     * @return void
+     */
     public function addArticle(array $article){
       
         $art = new Article();
@@ -32,7 +47,4 @@ class ArticleService
         $art->auteur = $article['auteur'];
         $art->save();
         }
-    
-    
-
 }

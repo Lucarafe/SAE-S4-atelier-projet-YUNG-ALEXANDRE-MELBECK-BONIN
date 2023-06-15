@@ -3,13 +3,18 @@
 {% block title %}Liste des articles{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1>Liste des articles</h1>
-
-        <ul>
-            {% for article in articles %}
-                <li>{{ article.titre }} - {{ article.created_at }}</li>
-            {% endfor %}
-        </ul>
-    </div>
+<div class="container">
+    <h1>Liste des articles</h1>
+    <ul class="article-list">
+        {% for article in articles %}
+            <li class="article-item">
+                <h3 class="article-title">{{ article.titre }}</h3>
+                <p class="article-date">Créé le {{ article.created_at }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+    {% if session.user is defined %}
+    <a class="add-article-btn" href="{{ url_for('articles') }}">Ajouter un article</a>
+    {% endif %}
+</div>
 {% endblock %}

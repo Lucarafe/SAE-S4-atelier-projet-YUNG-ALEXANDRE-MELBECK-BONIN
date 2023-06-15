@@ -33,6 +33,18 @@ services:
     depends_on:
       - sql
 
+  api :
+    image: canals/php:latest
+    ports:
+      - "8083:80"
+    volumes:
+      - ./api/public:/var/www/html
+      - ./api/src:/var/www/src
+    working_dir: /var/www/src
+    networks:
+      - miniPress.net
+    depends_on:
+      - sql
 
   adminer:
     image: adminer

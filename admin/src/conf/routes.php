@@ -2,6 +2,7 @@
 
 namespace MiniPress\app\conf;
 
+use MiniPress\app\action\deconnexionAction;
 use MiniPress\app\action\getAcceuilAction;
 use MiniPress\app\action\getArticlesAction;
 use MiniPress\app\action\getArticlesByCategoryAction;
@@ -20,10 +21,10 @@ return function (\Slim\App $app): void {
         ->setName('register');
     $app->post('/register', getRegisterAction::class)
         ->setName('register');
-    
-
     $app->post('/connection', getAuthAction::class)
         ->setName('connection');
+    $app->get('/deconnexion', deconnexionAction::class)
+        ->setName('deconnexion');
     $app->get('/articles/{categorie}', getArticlesByCategoryAction::class)
         ->setName('articlesByCategory');
     $app->get('/articles', getArticlesAction::class)

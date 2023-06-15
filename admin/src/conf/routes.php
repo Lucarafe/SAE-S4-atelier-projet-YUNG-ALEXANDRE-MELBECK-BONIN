@@ -20,6 +20,11 @@ return function (\Slim\App $app): void {
     $app->post('/register', getRegisterAction::class)
         ->setName('register');
 
+    $app->get('/register', getFormRegisterAction::class)
+        ->setName('register');
+    $app->post('/register', getRegisterAction::class)
+        ->setName('register');
+
     //$app->post('/connection', getAuthAction::class)
     //    ->setName('connection');
     $app->get('/articles/{categorie}', getArticlesByCategoryAction::class)

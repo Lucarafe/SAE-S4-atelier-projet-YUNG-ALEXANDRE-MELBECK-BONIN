@@ -5,7 +5,6 @@ namespace MiniPress\app\action;
 use MiniPress\app\service\auth\Auth;
 use MiniPress\app\service\auth\exception\mdpException;
 use MiniPress\app\service\injection\exception\injectionException;
-use MiniPress\app\service\injection\injection;
 use Slim\Routing\RouteContext;
 use Slim\Views\Twig;
 
@@ -18,26 +17,13 @@ class getRegisterAction {
         $params = $request->getParsedBody();
 
         $routeParser = RouteContext::fromRequest($request)->getRouteParser();
-        $url = $routeParser->urlFor('articles');
-
-        $inject = new injection();
-        $parametre = ['password', 'login', 'nom', 'prenom', 'telephone'];
-        foreach ($parametre as $parameter) {
-            if (!$inject->injectionString($parameter)) {
-                throw new injectionException('Injection detecté ' . $parameter . "hihi");
-            }
-        }
-        if (!$inject->injectionMail($params['email'])) throw new injectionException('Injection detecté ' . $params['email'] . " hihi");
+        $url = $routeParser->urlFor('connection');
 
         $auth = new Auth();
-        try {
-            $auth->register($params['email'], $params['password'], $params['confirm_password']);
-        } catch (mdpException $e) {
-            $url = $routeParser->urlFor('register');
-        }
+
         $email = $params['email'] ?? '';
         $password = $params['password'] ?? '';
-        $confirmPassword = $params['confirm_password'] ?? '';
+        $confirmPassword = $params['confirm-password'] ?? '';
 
         $errors = [];
         if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -53,6 +39,12 @@ class getRegisterAction {
         if (!empty($errors)) {
             $view = Twig::fromRequest($request);
             return $view->render($response, 'RegisterForm.twig', ['errors' => $errors]);
+        }
+
+        try {
+            $auth->register($email, $password, $confirmPassword);
+        } catch (mdpException $e) {
+            $url = $routeParser->urlFor('register');
         }
 
         return $response->withHeader('Location', $url)->withStatus(302);

@@ -1,6 +1,7 @@
 <?php
 
-namespace gift\api\conf;
+namespace MiniPress\api\conf;
+
 use Illuminate\Database\Capsule\Manager as DB;
 use Slim\Factory\AppFactory;
 

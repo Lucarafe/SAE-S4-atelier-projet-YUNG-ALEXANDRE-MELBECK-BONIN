@@ -1,6 +1,6 @@
 <?php
 
-namespace MiniPress\api\actions;
+namespace MiniPress\api\action;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class getArticlesByAuteurIDAction
 {
     public function __invoke(Request $request, Response $response): Response  {
-        $articles = \MiniPress\api\models\Article::where('auteur', $request->getAttribute('id'))->get();
+        $articles = \MiniPress\api\models\Article::where('idAuteur', $request->getAttribute('id'))->get();
         $data = [
             'type' => 'collection',
             'count' => count($articles),

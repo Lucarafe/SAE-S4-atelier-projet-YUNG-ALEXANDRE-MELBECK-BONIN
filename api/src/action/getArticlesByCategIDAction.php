@@ -1,24 +1,23 @@
 <?php
 
-namespace MiniPress\api\actions;
+namespace MiniPress\api\action;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class getArticlesByCategIDAction
 {
-    public function __invoke(Request $request, Response $response, array $args): Response {
+    public function __invoke(Request $request, Response $response): Response {
 
-        $categoryId = $args['id_categ'];
 
-        $category = \MiniPress\api\models\Categorie::find($categoryId);
+        $articles = \MiniPress\api\models\Article::where('idCategorie', $request->getAttribute('id_categ'))->get();
 
-        if (!$category) {
+        if (!$articles) {
             // Catégorie introuvable, retourner une réponse 404
             return $response->withStatus(404);
         }
 
-        $articles = $category->articles;
+
 
         $data = [
             'type' => 'collection',

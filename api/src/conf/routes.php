@@ -1,13 +1,13 @@
 <?php
 
-namespace gift\api\conf;
+namespace MiniPress\api\conf;
 
 
-use miniPress\api\actions\getCategoriesAction;
-use miniPress\api\actions\getArticlesAction;
-use miniPress\api\actions\getArticlesByCategIDAction;
-use miniPress\api\actions\getArticlesByIDAction;
-use miniPress\api\actions\getArticlesByAuteurIDAction;
+use MiniPress\api\action\getCategoriesAction;
+use MiniPress\api\action\getArticlesAction;
+use MiniPress\api\action\getArticlesByCategIDAction;
+use MiniPress\api\action\getArticlesByIDAction;
+use MiniPress\api\action\getArticlesByAuteurIDAction;
 
 
 return function (\Slim\App $app) {

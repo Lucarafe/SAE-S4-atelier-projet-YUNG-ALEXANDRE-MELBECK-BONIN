@@ -1,0 +1,15 @@
+{% extends "squelette/main.twig" %}
+
+{% block title %}Liste des catégories{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Liste des catégories</h1>
+
+        <ul>
+            {% for categorie in categories %}
+                <li>{{ categorie.titre }} - {{ categorie.resume }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

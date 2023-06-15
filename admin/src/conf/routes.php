@@ -31,12 +31,18 @@ return function (\Slim\App $app): void {
         ->setName('connection');
     $app->get('/deconnexion', deconnexionAction::class)
         ->setName('deconnexion');
+    $app->post('/articles/create', postFormulaireArticleAction::class)
+        ->setName('articleCreate');
+    $app->get('/articles/create', getFormulaireArticleAction::class)
+        ->setName('formulaireArticle');
     $app->get('/articles/{categorie}', getArticlesByCategoryAction::class)
         ->setName('articlesByCategory');
     $app->get('/articles', getArticlesAction::class)
         ->setName('articles');
-    $app->post('/formulaire', postFormulaireArticleAction::class)->setName('articleCreate');
-    $app->get('/formulaire', getFormulaireArticleAction::class)->setName('formulaireArticle');
+    $app->get('/categories/create', getCreateCategorieFormAction::class)
+        ->setName('categoriesCreate');
+    $app->post('/categories/create', getCreateCategorieAction::class)
+        ->setName('categoriesCreate');
     $app->get('/categories', getCategorieAction::class)
         ->setName('categories');
     $app->get('/users', getUserAction::class)

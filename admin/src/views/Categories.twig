@@ -11,5 +11,8 @@
                 <li>{{ categorie.titre }} - {{ categorie.resume }}</li>
             {% endfor %}
         </ul>
+        {% if session.user is defined %}
+            <a class="add-article-btn" href="{{ url_for('categoriesCreate') }}">Ajouter un article</a>
+        {% endif %}
     </div>
 {% endblock %}

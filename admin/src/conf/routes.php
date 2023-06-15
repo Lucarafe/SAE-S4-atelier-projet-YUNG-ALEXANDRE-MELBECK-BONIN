@@ -5,6 +5,8 @@ namespace MiniPress\app\conf;
 use MiniPress\app\action\getAcceuilAction;
 use MiniPress\app\action\getArticlesAction;
 use MiniPress\app\action\getArticlesByCategoryAction;
+use MiniPress\app\action\getCreateCategorieAction;
+use MiniPress\app\action\getCreateCategorieFormAction;
 use MiniPress\app\action\getFormAuthAction;
 
 return function (\Slim\App $app): void {
@@ -19,4 +21,8 @@ return function (\Slim\App $app): void {
         ->setName('articlesByCategory');
     $app->get('/articles', getArticlesAction::class)
         ->setName('articles');
+    $app->get('/categories/create[/]', getCreateCategorieFormAction::class)
+        ->setName('categorieForm');
+    $app->post('/categories/create[/]', getCreateCategorieAction::class)
+        ->setName('categorieCreate');
 };

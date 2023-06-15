@@ -17,7 +17,7 @@ class getCreateCategorieAction
         $categorieService->addCategorie($categorieTitre, $categorieResume);
 
         $routeParser = \Slim\Routing\RouteContext::fromRequest($rq)->getRouteParser();
-        $url = $routeParser->urlFor('articles');
+        $url = $routeParser->urlFor('categories');
         return $rs->withHeader('Location', $url)->withStatus(302);
     }
 }

@@ -14,6 +14,9 @@
         <div class="banner-buttons">
             {% if session.user is defined %}
                 <a href="{{ url_for('deconnexion') }}"><i class="fa fa-user"></i></a>
+                {% if session.user.privilege == 1 %}
+                    <a href="{{ url_for('register') }}" class="signup-link">Inscrire</a>
+                {% endif %}
             {% else %}
                 <a href="{{ url_for('connection') }}">Connectez-vous !</a>
             {% endif %}

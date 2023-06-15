@@ -1,13 +1,22 @@
 <head>
     <meta charset="utf-8">
     <title>Mini Press Core</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <div class="banner">
         <div class="banner-buttons">
-            <button>Afficher les catégories</button>
-            <button>Afficher les articles</button>
+            <a href="{{ url_for('articles') }}">Afficher les catégories</a>
+            <a href="{{ url_for('articles') }}">Afficher les articles</a>
         </div>
         <div class="banner-title">
             <h1>Mini Press Core</h1>
+        </div>
+        <div class="banner-buttons">
+            {% if session.user is defined %}
+                <a href="{{ url_for('articles') }}"><i class="fa fa-user"></i></a>
+            {% else %}
+                <a href="{{ url_for('connection') }}">Connectez-vous !</a>
+            {% endif %}
         </div>
     </div>
     <link rel="stylesheet" href="./css/style.css">

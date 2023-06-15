@@ -9,6 +9,7 @@ use Twig\Error\LoaderError;
 
 $app = AppFactory::create();
 $app->addErrorMiddleware(true,false,false);
+$app->setBasePath('');
 
 $db = new DB();
 $db->addConnection(parse_ini_file(__DIR__ . '/minipress.db.conf.ini'));

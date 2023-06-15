@@ -1,0 +1,25 @@
+{% extends "squelette/main.twig" %}
+
+{% block content %}
+    <div class="flex justify-around">
+        <fieldset class="bg-violet-300 p-8 rounded-lg shadow-lg">
+            <form method="POST" action="{{ url_for('connection') }}" class="space-y-4">
+                <div class="flex flex-col">
+                    <label for="email" class="text-gray-800">Adresse e-mail :</label>
+                    <input type="email" name="email" id="email" required class="px-4 py-2 rounded-lg border border-gray-400 focus:outline-none focus:border-violet-500">
+                </div>
+                <div class="flex flex-col">
+                    <label for="password" class="text-gray-800">Mot de passe :</label>
+                    <input type="password" name="password" id="password" required class="px-4 py-2 rounded-lg border border-gray-400 focus:outline-none focus:border-violet-500">
+                </div>
+                <div class="flex justify-center">
+                    <button class="block shadow rounded-2xl p-1 px-3 font-medium block mx-2 mt-5 bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:from-purple-300 hover:to-indigo-500 text-center"
+                    type="submit">Se connecter</button>
+                </div>
+            </form>
+
+            <p class="text-gray-800 mt-4">Vous n'avez pas encore de compte ? <br><a class="block shadow rounded-2xl p-1 px-3 font-medium block mx-2 mt-5 bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:from-purple-300 hover:to-indigo-500 text-center">
+                    S'inscrire</a></p>
+        </fieldset>
+    </div>
+{% endblock %}

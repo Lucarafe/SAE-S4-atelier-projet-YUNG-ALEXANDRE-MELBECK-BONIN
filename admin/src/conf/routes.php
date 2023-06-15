@@ -2,10 +2,16 @@
 
 namespace MiniPress\app\conf;
 
+use MiniPress\app\action\deconnexionAction;
 use MiniPress\app\action\getAcceuilAction;
 use MiniPress\app\action\getArticlesAction;
 use MiniPress\app\action\getArticlesByCategoryAction;
+use MiniPress\app\action\getAuthAction;
+use MiniPress\app\action\getCreateCategorieAction;
+use MiniPress\app\action\getCreateCategorieFormAction;
 use MiniPress\app\action\getFormAuthAction;
+use MiniPress\app\action\getFormRegisterAction;
+use MiniPress\app\action\getRegisterAction;
 
 return function (\Slim\App $app): void {
     $app->get('/', getAcceuilAction::class)

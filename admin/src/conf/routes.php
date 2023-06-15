@@ -13,6 +13,8 @@ use MiniPress\app\action\getCreateCategorieFormAction;
 use MiniPress\app\action\getFormAuthAction;
 use MiniPress\app\action\getFormRegisterAction;
 use MiniPress\app\action\getRegisterAction;
+use MiniPress\app\action\getFormulaireArticleAction;
+use MiniPress\app\action\postFormulaireArticleAction;
 use MiniPress\app\action\getUserAction;
 
 return function (\Slim\App $app): void {
@@ -33,10 +35,8 @@ return function (\Slim\App $app): void {
         ->setName('articlesByCategory');
     $app->get('/articles', getArticlesAction::class)
         ->setName('articles');
-    $app->get('/categories/create[/]', getCreateCategorieFormAction::class)
-        ->setName('categorieForm');
-    $app->post('/categories/create[/]', getCreateCategorieAction::class)
-        ->setName('categorieCreate');
+    $app->post('/formulaire', postFormulaireArticleAction::class)->setName('articleCreate');
+    $app->get('/formulaire', getFormulaireArticleAction::class)->setName('formulaireArticle');
     $app->get('/categories', getCategorieAction::class)
         ->setName('categories');
     $app->get('/users', getUserAction::class)

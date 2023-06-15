@@ -1,0 +1,76 @@
+{% extends "squelette/main.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <form class="article-form" action="{{url_for("articleCreate")}}" method="post">
+        <div class="form-group">
+            <label for="titre">Titre de l'article :</label>
+            <input type="text" name="titre" id="titre" value="Titre de l'article" onFocus="this.value='';" required>
+        </div>
+        <div class="form-group">
+            <label for="resume">Résumé de l'article :</label>
+            <textarea name="resume" id="resume" rows="5" cols="30" onFocus="this.value='';" required>Résumé de l'article</textarea>
+        </div>
+        <div class="form-group">
+            <label for="contenu">Contenu de l'article :</label>
+            <textarea name="contenu" id="contenu" rows="10" cols="30" onFocus="this.value='';" required>Contenu de l'article</textarea>
+        </div>
+        <div class="form-group">
+            <label for="Categorie"Categorie :></label>
+            <select name="categorie" id="categorie">
+            {% for categorie in categories %}
+            <option value="{{categorie.id}}">{{categorie.titre}}</option>
+            {% endfor %}
+        </select>
+        </div>
+        <input type="submit" value="Envoyer">
+        
+        
+       
+  
+  </ul>
+</div>
+
+    </form>
+    <style>.article-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        
+    </style>
+{% endblock %}

@@ -11,6 +11,7 @@ services:
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
       - MYSQL_USER=${DB_USER_NAME}
       - MYSQL_PASSWORD=${DB_USER_PASSWORD}
+      - MYSQL_DATABASE=${DB_USER_NAME}
     ports:
       - "3306:3306"
     networks:
@@ -32,6 +33,18 @@ services:
     depends_on:
       - sql
 
+  api :
+    image: canals/php:latest
+    ports:
+      - "8083:80"
+    volumes:
+      - ./api/public:/var/www/html
+      - ./api/src:/var/www/src
+    working_dir: /var/www/src
+    networks:
+      - miniPress.net
+    depends_on:
+      - sql
 
   adminer:
     image: adminer

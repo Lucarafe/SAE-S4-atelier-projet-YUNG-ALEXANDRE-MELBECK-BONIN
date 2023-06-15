@@ -4,6 +4,8 @@ namespace MiniPress\app\conf;
 
 use MiniPress\app\action\getAcceuilAction;
 use MiniPress\app\action\getFormAuthAction;
+use MiniPress\app\action\getFormRegisterAction;
+use MiniPress\app\action\getRegisterAction;
 
 return function (\Slim\App $app): void {
     $app->get('/', getAcceuilAction::class)
@@ -11,7 +13,9 @@ return function (\Slim\App $app): void {
     //route pour les connections
     $app->get('/connection', getFormAuthAction::class)
         ->setName('connection');
-    //$app->post('/connection', getAuthAction::class)
-    //    ->setName('connection');
+    $app->get('/register', getFormRegisterAction::class)
+        ->setName('register');
+    $app->post('/register', getRegisterAction::class)
+        ->setName('register');
 
 };

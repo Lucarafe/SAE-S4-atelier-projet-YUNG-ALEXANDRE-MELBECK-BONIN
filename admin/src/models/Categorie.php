@@ -12,6 +12,7 @@ class Categorie extends Eloq\Model
     public $incrementing = true;
     public $keyType = 'int';
 
+    // retourne les articles de la catégories
     public function articles()
     {
         return $this->hasMany(Article::class, 'idCategorie');

@@ -6,10 +6,24 @@
     <div class="container">
         <h1>Liste des utilisateurs</h1>
 
-        <ul>
+        <ul class="article-list">
             {% for user in users %}
-                <li>{{ user.login }} - {{ user.email }} - {{ user.privilege }}</li>
+                <li class="article-item">
+                    <h3 class="article-title">{{ user.login }}</h3>
+                    <p class="article-date">{{ user.email }}
+                        {% if user.privilege == 1 %}
+                            - administrateur
+                        {% else %}
+                            - utilisateur
+                        {% endif %}
+                    </p>
+                </li>
             {% endfor %}
         </ul>
+        {% if session.user is defined %}
+            {% if session.user.privilege == 1 %}
+                <a href="{{ url_for('register') }}" class="add-article-btn">Inscrire</a>
+            {% endif %}
+        {% endif %}
     </div>
 {% endblock %}

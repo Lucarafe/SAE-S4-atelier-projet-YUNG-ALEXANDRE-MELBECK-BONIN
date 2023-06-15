@@ -6,13 +6,13 @@ use MiniPress\app\action\deconnexionAction;
 use MiniPress\app\action\getAcceuilAction;
 use MiniPress\app\action\getArticlesAction;
 use MiniPress\app\action\getArticlesByCategoryAction;
-use MiniPress\app\action\getAuthAction;
+use MiniPress\app\action\postAuthAction;
 use MiniPress\app\action\getCategorieAction;
-use MiniPress\app\action\getCreateCategorieAction;
+use MiniPress\app\action\postCreateCategorieAction;
 use MiniPress\app\action\getCreateCategorieFormAction;
 use MiniPress\app\action\getFormAuthAction;
 use MiniPress\app\action\getFormRegisterAction;
-use MiniPress\app\action\getRegisterAction;
+use MiniPress\app\action\postRegisterAction;
 use MiniPress\app\action\getFormulaireArticleAction;
 use MiniPress\app\action\postFormulaireArticleAction;
 use MiniPress\app\action\getUserAction;
@@ -21,15 +21,15 @@ return function (\Slim\App $app): void {
     $app->get('/', getAcceuilAction::class)
         ->setName('acceuil');
     //route pour les connections
-    $app->get('/connection', getFormAuthAction::class)
+    $app->get('/users/connection', getFormAuthAction::class)
         ->setName('connection');
-    $app->get('/register', getFormRegisterAction::class)
+    $app->get('/users/register', getFormRegisterAction::class)
+        ->setName('/users/register');
+    $app->post('/users/register', postRegisterAction::class)
         ->setName('register');
-    $app->post('/register', getRegisterAction::class)
-        ->setName('register');
-    $app->post('/connection', getAuthAction::class)
+    $app->post('/users/connection', postAuthAction::class)
         ->setName('connection');
-    $app->get('/deconnexion', deconnexionAction::class)
+    $app->get('/users/deconnexion', deconnexionAction::class)
         ->setName('deconnexion');
     $app->post('/articles/create', postFormulaireArticleAction::class)
         ->setName('articleCreate');
@@ -41,7 +41,7 @@ return function (\Slim\App $app): void {
         ->setName('articles');
     $app->get('/categories/create', getCreateCategorieFormAction::class)
         ->setName('categoriesCreate');
-    $app->post('/categories/create', getCreateCategorieAction::class)
+    $app->post('/categories/create', postCreateCategorieAction::class)
         ->setName('categoriesCreate');
     $app->get('/categories', getCategorieAction::class)
         ->setName('categories');

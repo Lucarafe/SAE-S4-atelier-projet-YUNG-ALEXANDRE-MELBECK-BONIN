@@ -19,3 +19,8 @@ INSERT INTO `categorie` (`titre`, `resume`, `created_at`, `updated_at`) VALUES
 ('Actualités', 'Dernières nouvelles et événements', NOW(), NOW()),
 ('Tutoriels', 'Guides et didacticiels', NOW(), NOW()),
 ('Conseils', 'Conseils pratiques et astuces', NOW(), NOW());
+
+
+--
+INSERT INTO `user` (`login`, `passwd`, `email`, `nomUser`, `prenomUser`, `tel`, `token`, `privilege`) VALUES
+    ('admin',	'$2y$12$CvVp14eT5oWFJqTf3d3nn.Q1NW3VZEJMdD2RJkNK0gf4i/xCOzwKi',	'Test1@gmail.com',	'',	'',	'',	NULL,	1);

@@ -7,7 +7,11 @@
         <div class="banner-buttons">
             <a href="{{ url_for('categories') }}">Afficher les catégories</a>
             <a href="{{ url_for('articles') }}">Afficher les articles</a>
-            <a href="{{ url_for('users') }}">Afficher les users</a>
+            {% if session.user is defined %}
+                {% if session.user.privilege == 1 %}
+                    <a href="{{ url_for('users') }}">Afficher les users</a>
+                {% endif %}
+            {% endif %}
         </div>
         <div class="banner-title">
             <h1>Mini Press Core</h1>
@@ -15,15 +19,154 @@
         <div class="banner-buttons">
             {% if session.user is defined %}
                 <a href="{{ url_for('deconnexion') }}"><i class="fa fa-user"></i></a>
-                {% if session.user.privilege == 1 %}
-                    <a href="{{ url_for('register') }}" class="signup-link">Inscrire</a>
-                {% endif %}
             {% else %}
                 <a href="{{ url_for('connection') }}">Connectez-vous !</a>
             {% endif %}
         </div>
     </div>
-    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        .banner {
+            background-color: #f7f7f7;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .banner-title {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .banner-buttons {
+            margin-left: 10px;
+        }
+
+        .banner-buttons a {
+            margin-right: 10px;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .banner-buttons a:hover {
+            background-color: #45a049;
+        }
+
+        .form-container,
+        .login-form,
+        .container,
+        article-form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .form-group input[type="password"],
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .footer {
+            background-color: #f7f7f7;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            color: #888;
+        }
+
+        .footer-content p {
+            margin: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        p {
+            margin-top: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .article-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .article-item {
+            margin-bottom: 20px;
+        }
+
+        .article-title {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .article-date {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .add-article-btn,
+        input[type="submit"] {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-article-btn:hover,
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 
 

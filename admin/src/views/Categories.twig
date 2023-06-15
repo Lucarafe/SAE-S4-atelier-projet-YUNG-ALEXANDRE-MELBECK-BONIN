@@ -6,9 +6,12 @@
     <div class="container">
         <h1>Liste des catégories</h1>
 
-        <ul>
+        <ul class="article-list">
             {% for categorie in categories %}
-                <li>{{ categorie.titre }} - {{ categorie.resume }}</li>
+                <li class="article-item">
+                    <h3 class="article-title">{{ categorie.titre }}</h3>
+                    <p class="article-date">{{ categorie.resume }}</p>
+                </li>
             {% endfor %}
         </ul>
         {% if session.user is defined %}

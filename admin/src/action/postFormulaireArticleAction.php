@@ -13,7 +13,9 @@ class postFormulaireArticleAction
         if(isset($_SESSION['user'])){
             $auteur = $_SESSION['user']->login;
         }else{
-            $auteur = "Anonyme";
+            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+            $url = $routeParser->urlFor('articles');
+            return $response->withHeader('Location', $url)->withStatus(302);
         }
         $articleData = [
             'titre' => $article['titre'],

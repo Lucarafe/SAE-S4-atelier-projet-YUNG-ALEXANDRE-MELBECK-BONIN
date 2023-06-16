@@ -17,6 +17,7 @@
                 </ul>
             </div>
         </div>
+        {% if articlesUser is defined %}
         <div class="container" >
             <div class="article-container">
                 <h1>Liste de vos articles</h1>
@@ -53,5 +54,6 @@
                 {% endif %}
             </div>
         </div>
+        {% endif %}
     </div>
 {% endblock %}

@@ -6,9 +6,12 @@
     <div class="container">
         <h1>Articles par catégorie</h1>
 
-        <ul>
+        <ul class="article-list">
             {% for article in articles %}
-                <li>{{ article.titre }} - {{ article.created_at }}</li>
+                <li class="article-item">
+                    <h3 class="article-title">{{ article.titre }}</h3>
+                    <p class="article-date">Créé le {{ article.created_at }}</p>
+                </li>
             {% endfor %}
         </ul>
     </div>

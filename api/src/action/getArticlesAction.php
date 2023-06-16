@@ -10,7 +10,7 @@ class getArticlesAction
 
     $sort = $request->getQueryParams()['sort'] ?? '';
 
-    $articles = \MiniPress\api\models\Article::all();
+    $articles = \MiniPress\api\models\Article::where('publication', 1)->orderBy('created_at', 'desc')->get();
 
     // Tri des articles
     if ($sort === 'date-asc') {

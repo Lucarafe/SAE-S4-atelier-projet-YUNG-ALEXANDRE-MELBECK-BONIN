@@ -29,6 +29,7 @@ class getArticlesByIDAction
                 'idCategorie' => $article->idCategorie,
                 'created_at' => $article->created_at,
                 'updated_at' => $article->updated_at,
+                'publication'=> $article->publication,
             ],
             'links' => [
                 'self' => [

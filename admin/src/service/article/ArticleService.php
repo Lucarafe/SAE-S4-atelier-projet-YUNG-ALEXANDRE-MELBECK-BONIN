@@ -14,7 +14,7 @@ class ArticleService
      */
     public function getArticles(): array
     {
-        return Article::orderBy('created_at', 'desc')->get()->toArray();
+        return Article::where('publication', 1)->orderBy('created_at', 'desc')->get()->toArray();
     }
 
 
@@ -37,7 +37,7 @@ class ArticleService
      * @return void
      */
     public function addArticle(array $article){
-      
+
         $art = new Article();
         $art->titre = $article['titre'];
         $art->resume = $article['resume'];
@@ -45,6 +45,16 @@ class ArticleService
         $art->idCategorie = $article['categorie'];
         $art->img = "";
         $art->auteur = $article['auteur'];
+        $art->idAuteur = $article['idAuteur'];
         $art->save();
-        }
+    }
+
+    function getArticlesUser($login){
+        return Article::where('auteur', $login)->orderBy('created_at', 'desc')->get()->toArray();
+    }
+    function changerPubli($id, $publi){
+        $article = Article::find($id);
+        $article->publication = $publi;
+        $article->save();
+    }
 }

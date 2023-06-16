@@ -23,10 +23,13 @@ class getArticlesAction
     {
         $articleService = new ArticleService();
         // Récupère la liste des articles
-        $articles = $articleService->getArticles();
+        $articlesPubli = $articleService->getArticles();
+        $articlesUser = null;
+        if (isset($_SESSION['user'])) $articlesUser = $articleService->getArticlesUser($_SESSION['user']->login);
+
         $view = Twig::fromRequest($request);
 
         // Rend la vue des articles en passant les données des articles
-        return $view->render($response, 'Articles.twig', ['articles' => $articles]);
+        return $view->render($response, 'Articles.twig', ['articles' => $articlesPubli, 'articlesUser' => $articlesUser]);
     }
 }

@@ -6,16 +6,16 @@
     <div class="container">
         <h1>Liste des catégories</h1>
 
-        <ul class="article-list">
+        <ul class="categorie-list">
             {% for categorie in categories %}
-                <li class="article-item">
-                    <h3 class="article-title">{{ categorie.titre }}</h3>
-                    <p class="article-date">{{ categorie.resume }}</p>
+                <li class="categorie-item">
+                    <h3 class="categorie-title">{{ categorie.titre }}</h3>
+                    <p class="categorie-resume">{{ categorie.resume }}</p>
                 </li>
             {% endfor %}
         </ul>
         {% if session.user is defined %}
-            <a class="add-article-btn" href="{{ url_for('categoriesCreate') }}">Ajouter un article</a>
+            <a class="add-categorie-btn" href="{{ url_for('categoriesCreate') }}">Ajouter un article</a>
         {% endif %}
     </div>
 {% endblock %}

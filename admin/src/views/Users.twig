@@ -6,11 +6,11 @@
     <div class="container">
         <h1>Liste des utilisateurs</h1>
 
-        <ul class="article-list">
+        <ul class="users-list">
             {% for user in users %}
-                <li class="article-item">
-                    <h3 class="article-title">{{ user.login }}</h3>
-                    <p class="article-date">{{ user.email }}
+                <li class="users-item">
+                    <h3 class="users-title">{{ user.login }}</h3>
+                    <p class="users-email">{{ user.email }}
                         {% if user.privilege == 1 %}
                             - administrateur
                         {% else %}

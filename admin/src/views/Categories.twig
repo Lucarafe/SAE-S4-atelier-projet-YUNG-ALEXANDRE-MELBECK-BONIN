@@ -5,17 +5,20 @@
 {% block content %}
     <div class="container">
         <h1>Liste des catégories</h1>
-
         <ul class="categorie-list">
             {% for categorie in categories %}
-                <li class="categorie-item">
-                    <h3 class="categorie-title">{{ categorie.titre }}</h3>
-                    <p class="categorie-resume">{{ categorie.resume }}</p>
-                </li>
+                <a href="{{ url_for('articlesByCategory', {'categorie': categorie.titre}) }}" class="no-link-style hover-link">
+                    <li class="categorie-item">
+                        <h3 class="categorie-title">{{ categorie.titre }}</h3>
+                        <p class="categorie-resume">{{ categorie.resume }}</p>
+                    </li>
+                </a>
+
             {% endfor %}
         </ul>
+
         {% if session.user is defined %}
-            <a class="add-categorie-btn" href="{{ url_for('categoriesCreate') }}">Ajouter un article</a>
+            <a class="add-categorie-btn" href="{{ url_for('categoriesCreate') }}">Ajouter une catégorie</a>
         {% endif %}
     </div>
 {% endblock %}

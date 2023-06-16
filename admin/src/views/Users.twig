@@ -7,18 +7,31 @@
         <h1>Liste des utilisateurs</h1>
 
         <ul class="users-list">
-            {% for user in users %}
-                <li class="users-item">
-                    <h3 class="users-title">{{ user.login }}</h3>
-                    <p class="users-email">{{ user.email }}
-                        {% if user.privilege == 1 %}
-                            - administrateur
-                        {% else %}
-                            - utilisateur
-                        {% endif %}
-                    </p>
-                </li>
-            {% endfor %}
+            <table>
+                <tbody>
+                {% for user in users %}
+                    <li class="users-item">
+                        <tr>
+                            <td>
+                                <h3 class="users-title">{{ user.login }}</h3>
+                                <p class="users-email">{{ user.email }}
+                                    {% if user.privilege == 1 %}
+                                        - administrateur
+                                    {% else %}
+                                        - utilisateur
+                                    {% endif %}
+                                </p>
+                            </td>
+                            <td>
+                                <a href="{{ url_for('userArticle', {'login': user.login}) }}" class="add-article-btn">Ses Articles</a>
+                            </td>
+                        </tr>
+
+
+                    </li>
+                {% endfor %}
+                </tbody>
+            </table>
         </ul>
         {% if session.user is defined %}
             {% if session.user.privilege == 1 %}

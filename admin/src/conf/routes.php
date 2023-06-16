@@ -2,6 +2,7 @@
 
 namespace MiniPress\app\conf;
 
+use MiniPress\app\action\getArticlesUserAction;
 use MiniPress\app\action\getDeconnexionAction;
 use MiniPress\app\action\getAcceuilAction;
 use MiniPress\app\action\getArticlesAction;
@@ -48,7 +49,8 @@ return function (\Slim\App $app): void {
         ->setName('supprimerArticle');
     $app->get('/articles/{id}/publier', getPublicationSuppressionAction::class)
         ->setName('publierArticle');
-    
+    $app->get('/articles/{login}/users', getArticlesUserAction::class)
+        ->setName('userArticle');
 
     //route pour les catégories
     $app->get('/categories', getCategorieAction::class)

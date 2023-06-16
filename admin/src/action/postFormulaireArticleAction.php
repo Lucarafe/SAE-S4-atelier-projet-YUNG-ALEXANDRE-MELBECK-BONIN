@@ -1,6 +1,8 @@
 <?php
 namespace MiniPress\app\action;
 use MiniPress\app\service\article\ArticleService;
+use MiniPress\app\service\injection\exception\injectionException;
+use MiniPress\app\service\injection\injection;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Routing\RouteContext;
@@ -25,22 +27,30 @@ class postFormulaireArticleAction
         $routeParser = $routeContext->getRouteParser();
         // Vérifie si l'utilisateur est connecté
         if(isset($_SESSION['user'])){
-            $auteur = $_SESSION['user']->login;
-            $idAuteur = $_SESSION['user']->id;
+            $auteur = $_SESSION['user'];
         }else{
             // Redirige vers la page des articles si l'utilisateur n'est pas connecté
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
             $url = $routeParser->urlFor('articles');
             return $response->withHeader('Location', $url)->withStatus(302);
         }
+
+        $injection = new injection();
+        try{
+        $injection->injectionString($article['titre']);
+        $injection->injectionString($article['resume']);
+        $injection->injectionString($article['contenu']);
+        }catch(injectionException $e){
+           return $response->withStatus(302)->withHeader('Location', $routeParser->urlFor('articles'));
+        }
         // Construit les données de l'article à partir des champs du formulaire
         $articleData = [
-            'titre' => $article['titre'],
-            'resume' => $article['resume'],
-            'contenu' => $article['contenu'],
+            'titre' => '#'.$article['titre'],
+            'resume' => "'''".$article['resume']."'''",
+            'contenu' => "'''".$article['contenu']."'''",
             'categorie' => $article['categorie'],
-            'auteur' => $auteur,
-            'idAuteur' => $idAuteur,
+            'auteur' => $auteur['login'],
+            'idAuteur' => $auteur['id'],
         ];
 
         $articleService = new ArticleService();

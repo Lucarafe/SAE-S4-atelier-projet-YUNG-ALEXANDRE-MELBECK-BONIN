@@ -27,7 +27,8 @@ CREATE TABLE `article` (
     `idCategorie` bigint NOT NULL ,
     `created_at` datetime NOT NULL,
     `updated_at` datetime NOT NULL,
-    `idAuteur` bigint NOT NULL
+    `idAuteur` bigint NOT NULL,
+    `publication` int NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `categorie`;

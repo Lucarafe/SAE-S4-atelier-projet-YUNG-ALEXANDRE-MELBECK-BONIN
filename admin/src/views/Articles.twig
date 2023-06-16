@@ -3,18 +3,55 @@
 {% block title %}Liste des articles{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1>Liste des articles</h1>
-    <ul class="article-list">
-        {% for article in articles %}
-            <li class="article-item">
-                <h3 class="article-title">{{ article.titre }}</h3>
-                <p class="article-date">Créé le {{ article.created_at }}</p>
-            </li>
-        {% endfor %}
-    </ul>
-    {% if session.user is defined %}
-    <a class="add-article-btn" href="{{ url_for('formulaireArticle') }}">Ajouter un article</a>
-    {% endif %}
-</div>
+    <div class="flex-container">
+        <div class="container">
+            <div class="article-container">
+                <h1>Liste des articles</h1>
+                <ul class="article-list">
+                    {% for article in articles %}
+                        <li class="article-item">
+                            <h3 class="article-title">{{ article.titre }}</h3>
+                            <p class="article-date">Créé le {{ article.created_at }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="container" >
+            <div class="article-container">
+                <h1>Liste de vos articles</h1>
+                <ul class="article-list">
+                    {% if articlesUser is empty %}
+                        <li class="article-item">
+                            <h3 class="article-title">Aucun article publié</h3>
+                        </li>
+                    {% else %}
+                        {% for article in articlesUser %}
+                            <li class="article-item">
+                                <table>
+                                    <td>
+                                        <h3 class="article-title">{{ article.titre }}</h3>
+                                        <p class="article-date">Créé le {{ article.created_at }}</p>
+                                    </td>
+                                    <td>
+                                        {% if article.publication == 1 %}
+                                            <a class="add-article-btn" href="{{ url_for('supprimerArticle', {'id': article.id}, {'action':'0'}) }}">
+                                                Dépublier</a>
+                                        {% else %}
+                                            <a class="add-article-btn" href="{{ url_for('publierArticle', {'id': article.id} , {'action':'1'}) }}">
+                                                Publier</a>
+                                        {% endif %}
+                                    </td>
+                                </table>
+
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                {% if session.user is defined %}
+                    <a class="add-article-btn" href="{{ url_for('formulaireArticle') }}">Ajouter un article</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

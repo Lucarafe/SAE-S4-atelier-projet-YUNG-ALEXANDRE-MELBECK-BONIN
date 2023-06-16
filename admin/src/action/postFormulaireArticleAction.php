@@ -26,6 +26,7 @@ class postFormulaireArticleAction
         // Vérifie si l'utilisateur est connecté
         if(isset($_SESSION['user'])){
             $auteur = $_SESSION['user']->login;
+            $idAuteur = $_SESSION['user']->id;
         }else{
             // Redirige vers la page des articles si l'utilisateur n'est pas connecté
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
@@ -39,6 +40,7 @@ class postFormulaireArticleAction
             'contenu' => $article['contenu'],
             'categorie' => $article['categorie'],
             'auteur' => $auteur,
+            'idAuteur' => $idAuteur,
         ];
 
         $articleService = new ArticleService();

@@ -6,6 +6,7 @@ use MiniPress\app\action\getDeconnexionAction;
 use MiniPress\app\action\getAcceuilAction;
 use MiniPress\app\action\getArticlesAction;
 use MiniPress\app\action\getArticlesByCategoryAction;
+use MiniPress\app\action\getPublicationSuppressionAction;
 use MiniPress\app\action\postAuthAction;
 use MiniPress\app\action\getCategorieAction;
 use MiniPress\app\action\postCreateCategorieAction;
@@ -43,6 +44,11 @@ return function (\Slim\App $app): void {
         ->setName('formulaireArticle');
     $app->get('/articles/{categorie}', getArticlesByCategoryAction::class)
         ->setName('articlesByCategory');
+    $app->get('/articles/{id}/supprimer', getPublicationSuppressionAction::class)
+        ->setName('supprimerArticle');
+    $app->get('/articles/{id}/publier', getPublicationSuppressionAction::class)
+        ->setName('publierArticle');
+    
 
     //route pour les catégories
     $app->get('/categories', getCategorieAction::class)

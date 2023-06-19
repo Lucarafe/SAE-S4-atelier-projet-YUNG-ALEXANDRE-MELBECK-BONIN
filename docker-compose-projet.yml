@@ -13,7 +13,7 @@ services:
       - MYSQL_PASSWORD=${DB_USER_PASSWORD}
       - MYSQL_DATABASE=${DB_USER_NAME}
     ports:
-      - "60610:3306"
+      - "3306:3306"
     networks:
       miniPress.net:
         aliases:
@@ -22,7 +22,7 @@ services:
   php:
     image: canals/php:latest
     ports:
-      - "60600:80"
+      - "8080:80"
     volumes:
       - ./admin/public:/var/www/html
       - ./img:/var/www/html/img
@@ -32,14 +32,11 @@ services:
       - miniPress.net
     depends_on:
       - sql
-    environment:
-      - http_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
-      - https_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
 
   api :
     image: canals/php:latest
     ports:
-      - "60603:80"
+      - "8083:80"
     volumes:
       - ./api/public:/var/www/html
       - ./api/src:/var/www/src
@@ -48,22 +45,19 @@ services:
       - miniPress.net
     depends_on:
       - sql
-    environment:
-      - http_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
-      - https_proxy=http://www-cache.iutnc.univ-lorraine.fr:3128
 
   adminer:
     image: adminer
     ports:
-      - "60602:8080"
+      - "8082:8080"
     networks:
       - miniPress.net
 
   httpd:
     image: httpd
     ports:
-      - "60601:80"
+      - "8081:80"
     volumes:
-      - ./frontend/lib:/usr/local/apache2/htdocs/
+      - ./frontend:/usr/local/apache2/htdocs/
     networks:
       - miniPress.net

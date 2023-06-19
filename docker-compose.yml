@@ -13,7 +13,7 @@ services:
       - MYSQL_PASSWORD=${DB_USER_PASSWORD}
       - MYSQL_DATABASE=${DB_USER_NAME}
     ports:
-      - "60610:3306"
+      - "60609:3306"
     networks:
       miniPress.net:
         aliases:
@@ -22,7 +22,7 @@ services:
   php:
     image: canals/php:latest
     ports:
-      - "60600:80"
+      - "60608:80"
     volumes:
       - ./admin/public:/var/www/html
       - ./img:/var/www/html/img
@@ -39,7 +39,7 @@ services:
   api :
     image: canals/php:latest
     ports:
-      - "60603:80"
+      - "60607:80"
     volumes:
       - ./api/public:/var/www/html
       - ./api/src:/var/www/src
@@ -55,14 +55,14 @@ services:
   adminer:
     image: adminer
     ports:
-      - "60602:8080"
+      - "60606:8080"
     networks:
       - miniPress.net
 
   httpd:
     image: httpd
     ports:
-      - "60601:80"
+      - "60605:80"
     volumes:
       - ./frontend:/usr/local/apache2/htdocs/
     networks:

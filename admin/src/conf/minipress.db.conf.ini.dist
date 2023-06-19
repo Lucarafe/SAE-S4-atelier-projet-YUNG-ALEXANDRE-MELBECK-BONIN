@@ -1,0 +1,7 @@
+driver=mysql
+username=userMiniPress
+password=MiniPressUser
+host=sql.miniPress
+database=MiniPressTest
+charset=utf8
+collation=utf8_unicode_ci

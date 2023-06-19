@@ -10,10 +10,11 @@ class Categorie {
   });
 
   factory Categorie.fromJson(Map<String, dynamic> json) {
-    return Categorie(
-      id: json['id'],
-      titre: json['titre'],
-      resume: json['resume']
-    );
-  }
+  return Categorie(
+    id: json['id'].toString(),
+    titre: json['titre'].toString(),
+    resume: json['resume'].toString(),
+  );
+}
+
 }

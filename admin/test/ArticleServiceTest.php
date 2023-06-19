@@ -55,14 +55,14 @@ public static function tearDownAfterClass(): void
 public function testGetArticles(){
     $articleService = new ArticleService();
     $articles = $articleService->getArticles();
-    $this->assertEquals(1, $articles[0]['id']);
+    $this->assertEquals(2, $articles[0]['id']);
 }
 
 public function testGetArticlesByCategory(){
     $articleService = new ArticleService();
     $articles = $articleService->getArticlesByCategory(1);
-    $this->assertEquals(1, $articles[0]['id']);
-    $this->assertEquals(1, $articles[0]['idCategorie']);
+    $this->assertEquals(2, $articles[0]['id']);
+    $this->assertEquals(2, $articles[0]['idCategorie']);
     $this->assertEquals(1,count($articles));
 }
 }

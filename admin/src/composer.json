@@ -10,7 +10,8 @@
   },
   "autoload": {
     "psr-4": {
-      "MiniPress\\app\\": "./"
+      "MiniPress\\app\\": "./",
+      "MiniPress\\test\\":"./"
     }
   }
 }

@@ -12,7 +12,6 @@ require __DIR__."/../src/vendor/autoload.php";
 
 class ArticleServiceTest extends TestCase{
 
-    private static array $articles = [];
 public static function setUpBeforeClass(): void
 {
     parent::setUpBeforeClass();
@@ -23,24 +22,47 @@ public static function setUpBeforeClass(): void
     $faker = \Faker\Factory::create('fr_FR');
     
     $article = new Article();
+    $article->id = 1;
     $article->titre = "Titre de l'article de test";
     $article->resume = "Résumé de l'article de test";
     $article->contenu = "Contenu de l article de test";
-    $article->date = "2021-01-01 00:00:00";
     $article->auteur = "Auteur de l'article de test";
     $article->img = "img.jpg";
     $article->idCategorie = 1;
     $article->idAuteur = 1;
-    $article->publication = 2;
+    $article->publication = 1;
     $article->save();
-    self::$articles = [$article];
+
+    $article1 = new Article();
+    $article1->id = 2;
+    $article1->titre = "Titre de l'article de test";
+    $article1->resume = "Résumé de l'article de test";
+    $article1->contenu = "Contenu de l article de test";
+    $article1->auteur = "Auteur de l'article de test";
+    $article1->img = "img.jpg";
+    $article1->idCategorie = 2;
+    $article1->idAuteur = 2;
+    $article1->publication = 1;
+    $article1->save();
+}
+
+public static function tearDownAfterClass(): void
+{
+    parent::tearDownAfterClass();
+    Article::truncate();
 }
 
 public function testGetArticles(){
     $articleService = new ArticleService();
     $articles = $articleService->getArticles();
-   $this->assertEquals(self::$articles, $articles);
+    $this->assertEquals(1, $articles[0]['id']);
 }
 
-
+public function testGetArticlesByCategory(){
+    $articleService = new ArticleService();
+    $articles = $articleService->getArticlesByCategory(1);
+    $this->assertEquals(1, $articles[0]['id']);
+    $this->assertEquals(1, $articles[0]['idCategorie']);
+    $this->assertEquals(1,count($articles));
+}
 }

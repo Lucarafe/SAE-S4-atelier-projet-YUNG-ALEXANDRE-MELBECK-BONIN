@@ -1,10 +1,5 @@
-import {loadArticles, loadCategories} from "./module/apiLoader.js";
-import {display_articles, display_categorie, display_trie} from "./display/display.js";
+import {loadArticles} from "./module/apiLoader.js";
 
 loadArticles().then(article => {
-    display_articles(article.articles);
+    console.log(article)
 });
-display_trie();
-loadCategories().then(categories =>{
-    display_categorie(categories.categories)
-})

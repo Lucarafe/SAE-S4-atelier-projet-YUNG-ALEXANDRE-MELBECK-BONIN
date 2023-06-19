@@ -3,36 +3,28 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="./styles/styles.css">
-
   <title>MiniPress</title>
 </head>
 
 <body>
-<div class="banner">
-  <h1>MiniPress</h1>
-</div>
-<div class="category-container">
-  <div class="category-nav category-nav-left">
-    <button class="arrow-left">&lt;</button>
-  </div>
-  <div class="category-list">
-    <ul id="listCategorie"></ul>
-  </div>
+<h1>MiniPress</h1>
 
-  <div class="category-nav category-nav-right">
-    <button class="arrow-right">&gt;</button>
-  </div>
-</div>
-<br>
-<button id="trie"></button>
-<h2 id="nomListe"></h2>
-<div id="liste" class="article-list"></div>
+<h2>Liste des catégories</h2>
+<ul id="categorieListe"></ul>
 
+<h2>Liste des articles</h2>
+<ul id="articleListe"></ul>
+
+<h2>Liste des auteurs</h2>
+<ul id="auteurListe"></ul>
+
+<h2>Recherche par titre</h2>
+<input type="text" id="rechercheTitre" placeholder="Mot-clé">
+<button id="btnRecherche">Rechercher</button>
+
+<h2>Recherche par titre ou résumé</h2>
+<input type="text" id="rechercheTitreResume" placeholder="Mot-clé">
+<button id="btnRechercheTitreResume">Rechercher</button>
 
 </body>
-<script src="display/showdown.js" defer></script>
-<script type="module" src='index.js' defer></script>
-</body>
-
 </html>

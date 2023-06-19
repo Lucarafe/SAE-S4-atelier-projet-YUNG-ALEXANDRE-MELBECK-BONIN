@@ -11,6 +11,7 @@ class MiniPressApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MiniPress',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

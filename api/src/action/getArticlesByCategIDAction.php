@@ -31,10 +31,16 @@ class getArticlesByCategIDAction
 
             // Ajouter les données de l'article à la structure JSON
             $data['articles'][] = [
-                'titre' => $article->titre,
-                'created_at' => $article->created_at,
-                'auteur' => $article->auteur,
-                'url' => $articleUrl,
+                'type' => 'collection','article' => [
+                    'titre' => $article->titre,
+                    'created_at' => $article->created_at,
+                    'auteur' => $article->auteur,
+                ],
+                'links' => [
+                    'self' => [
+                        'href' => '/api/articles/' . $article->id,
+                    ],
+                ]
             ];
         }
 

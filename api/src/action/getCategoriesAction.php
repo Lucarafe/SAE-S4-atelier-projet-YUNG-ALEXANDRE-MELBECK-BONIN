@@ -28,7 +28,7 @@ class GetCategoriesAction
                 ],
                 'links' => [
                     'self' => [
-                        'href' => '/categories/' . $categorie->id . '/',
+                        'href' => '/api/categories/' . $categorie->id . '/articles',
                     ],
                 ],
             ];

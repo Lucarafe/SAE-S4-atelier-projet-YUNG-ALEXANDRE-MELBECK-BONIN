@@ -35,7 +35,9 @@ class getArticlesByIDAction
                 'self' => [
                     'href' => '/api/articles/' . $article->id,
                 ],
-                'articlesUser' => '/api/auteurs/' . $article->idAuteur . '/articles'
+                'articles_author' => [
+                    'href' => '/api/auteurs/' . $article->idAuteur . '/articles',
+                ]
             ],
         ];
 

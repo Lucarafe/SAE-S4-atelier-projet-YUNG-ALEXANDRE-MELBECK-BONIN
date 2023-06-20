@@ -28,13 +28,19 @@ $data = [
 
 foreach ($articles as $article) {
     //seuls ses titres, date de création et auteur sont retournés, accompagnés de l’url permettant d’obtenir l’article complet.
-    $data['articles'][] = [
-        'article' => [
-            'titre' => $article->titre,
-            'created_at' => $article->created_at,
-            'auteur' => $article->auteur,
-            'url' => '/api/articles/' . $article->id,
-        ],
+    $data['articles'][] =
+        [
+            'type' => 'resource','article' => [
+                'titre' => $article->titre,
+                'created_at' => $article->created_at,
+                'auteur' => $article->auteur,
+
+                ],
+            'links' => [
+                'self' => [
+                    'href' => '/api/articles/' . $article->id ,
+                ],
+            ]
         ];
 }
 

@@ -40,6 +40,12 @@ export function display_articles(articles) {
 export function display_categorie(categories) {
     const listCategorie = document.getElementById('listCategorie');
 
+    const li = document.createElement('li');
+    li.setAttribute('url', '/api/categories');
+    li.className = "categorie";
+    li.textContent = 'Tous les articles';
+    categorieAction(li);
+    listCategorie.appendChild(li);
     // Créer un élément de liste pour chaque catégorie
     categories.forEach(categ => {
         var categorie = categ.categorie
@@ -77,7 +83,7 @@ export function display_article(art) {
 
     // Créer un élément paragraphe p pour afficher l'auteur de l'article
     const author = document.createElement('p');
-    author.setAttribute('url', art.links.articlesUser);
+    author.setAttribute('url', art.links.articles_author.href);
     userAction(author);
     author.textContent = article.auteur;
 

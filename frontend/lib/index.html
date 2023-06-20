@@ -3,17 +3,32 @@
 
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="./styles/styles.css">
+
   <title>MiniPress</title>
 </head>
 
 <body>
+<div class="banner">
   <h1>MiniPress</h1>
-  <div id="listCategorie"></div>
-  <h2 id="nomListe"></h2>
-    <div id="liste"></div>
+</div>
+<div class="category-container">
+  <div class="category-nav category-nav-left">
+    <button class="arrow-left">&lt;</button>
+  </div>
+  <div class="category-list">
+    <ul id="listCategorie"></ul>
+  </div>
+  <div class="category-nav category-nav-right">
+    <button class="arrow-right">&gt;</button>
+  </div>
+</div>
 
+<h2 id="nomListe"></h2>
+<div id="liste" class="article-list"></div>
 
-</body>
 <script src="display/showdown.js" defer></script>
 <script type="module" src='index.js' defer></script>
+</body>
+
 </html>

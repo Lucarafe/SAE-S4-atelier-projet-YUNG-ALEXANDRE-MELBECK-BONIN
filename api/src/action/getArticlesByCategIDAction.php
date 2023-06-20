@@ -33,7 +33,6 @@ class getArticlesByCategIDAction
             $data['articles'][] = [
                 'type' => 'collection','article' => [
                     'titre' => $article->titre,
-                    'resume' => $article->resume,
                     'created_at' => $article->created_at,
                     'auteur' => $article->auteur,
                 ],

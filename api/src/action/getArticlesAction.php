@@ -32,6 +32,7 @@ foreach ($articles as $article) {
         [
             'type' => 'resource','article' => [
                 'titre' => $article->titre,
+                'resume' => $article->resume,
                 'created_at' => $article->created_at,
                 'auteur' => $article->auteur,
 

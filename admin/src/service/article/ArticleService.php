@@ -17,6 +17,11 @@ class ArticleService
         return Article::where('publication', 1)->orderBy('created_at', 'desc')->get()->toArray();
     }
 
+    public function getArticlesAdmin(): array
+    {
+        return Article::orderBy('id')->get()->toArray();
+    }
+
 
     /**
      * Récupère les articles d'une catégorie spécifique.

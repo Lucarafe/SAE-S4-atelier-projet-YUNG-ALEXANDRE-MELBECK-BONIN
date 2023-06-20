@@ -1,32 +1,35 @@
-import {articleAction, categorieAction, userAction} from "../action/addListener.js";
+import {
+    articleAction,
+    ButtonTrieAction,
+    categorieAction,
+    categoriesAction,
+    searchBarAction,
+    userAction
+} from "../action/addListener.js";
+import {config} from "../conf/config.js";
 'use strict'
 
-export function display_articles(articles) {
-    const titreList = document.getElementById('nomListe');
-    titreList.textContent = "";
-    titreList.textContent = 'Liste des articles :';
-    const articleListe = document.getElementById('liste');
-
-    articleListe.textContent = "";
-    // Parcourir les articles dans l'ordre inverse
-    articles.forEach(art => {
+export function displayArticles(filteredArticles, articleListe) {
+    filteredArticles.forEach(art => {
         var article = art.article;
         const div = document.createElement('div');
         div.className = 'article';
-        div.setAttribute('url', art.links.self.href); // Ajout de l'attribut id avec la valeur de l'id de l'article
+        div.setAttribute('url', art.links.self.href);
 
         const title = document.createElement('h3');
+        const resume = document.createElement('p');
         const date = document.createElement('p');
         const author = document.createElement('p');
 
         // Définir le contenu des éléments
         title.textContent = article.titre;
+        resume.textContent = article.resume;
         date.textContent = `Créé le ${article.created_at}`;
-        author.textContent = `Auteur : ${article.auteur}`;
+        author.textContent = `Écrit par ${article.auteur}`;
 
         // Ajouter les éléments
         div.appendChild(title);
-        div.appendChild(date);
+        div.appendChild(resume);
         div.appendChild(author);
 
         articleAction(div);
@@ -34,7 +37,26 @@ export function display_articles(articles) {
         // Ajout à la liste des articles
         articleListe.appendChild(div);
     });
+}
 
+export function display_articles(articles) {
+    const titreList = document.getElementById('nomListe');
+    titreList.textContent = "";
+    titreList.textContent = 'Liste des articles :';
+
+    const searchBar = document.createElement('input');
+    searchBar.setAttribute('type', 'text');
+    searchBar.setAttribute('id', 'searchBar');
+    searchBar.setAttribute('placeholder', 'Rechercher...');
+    titreList.appendChild(searchBar);
+
+    const articleListe = document.getElementById('liste');
+    articleListe.textContent = "";
+    searchBarAction(searchBar, articles);
+
+
+    // Initial display of all articles
+    displayArticles(articles, articleListe);
 }
 
 export function display_categorie(categories) {
@@ -45,6 +67,13 @@ export function display_categorie(categories) {
     const arrowRight = document.querySelector('.arrow-right');
 
     // Créer un élément de bouton pour chaque catégorie
+    const button = document.createElement('button');
+
+    button.className = "categorie";
+    button.textContent = 'Tous les articles';
+    categoriesAction(button);
+    listCategorie.appendChild(button);
+    // Créer un élément de liste pour chaque catégorie
     categories.forEach(categ => {
         var categorie = categ.categorie;
         const button = document.createElement('button');
@@ -115,9 +144,6 @@ export function display_categorie(categories) {
     categoryNav.style.width = `${containerWidth}px`;
 }
 
-
-
-
 export function display_article(art) {
     const titreList = document.getElementById('nomListe');
     const articleListe = document.getElementById('liste');
@@ -141,7 +167,7 @@ export function display_article(art) {
 
     // Créer un élément paragraphe p pour afficher l'auteur de l'article
     const author = document.createElement('p');
-    author.setAttribute('url', art.links.articlesUser);
+    author.setAttribute('url', art.links.articles_author.href);
     userAction(author);
     author.textContent = article.auteur;
 
@@ -151,6 +177,14 @@ export function display_article(art) {
 
     // Ajout du div de l'article à la liste des articles
     articleListe.appendChild(div);
+}
+
+export function display_trie(){
+    const boutonTri = document.getElementById('trie');
+
+    boutonTri.textContent = 'Trier par ordre croissant';
+    boutonTri.dataset.ordre = config.trieAsc;
+    ButtonTrieAction(boutonTri);
 }
 
 

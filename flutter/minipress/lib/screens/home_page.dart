@@ -31,20 +31,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchArticles() async {
-    final response = await ApiProvider.get('/api/articles?date-desc');
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(response.body);
-      final List<dynamic> articlesJson = data['articles'];
-
-      setState(() {
-        articles = articlesJson
-            .map((json) => Article.fromJson(json['article']))
-            .toList();
-      });
-    } else {
-      throw Exception('Failed to fetch articles');
-    }
+  final response = await ApiProvider.get('/api/articles?date-desc');
+  if (response.statusCode == 200) {
+    final Map<String, dynamic> data = json.decode(response.body);
+    final List<dynamic> articlesJson = data['articles'];
+    setState(() {
+      articles = articlesJson
+          .map((json) => Article.fromJson(json))
+          .toList();
+    });
+  } else {
+    throw Exception('Failed to fetch articles');
   }
+}
+
 
   Future<void> fetchCategories() async {
   final response = await ApiProvider.get('/api/categories');
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
 
     setState(() {
       categories = categoriesJson
-          .map((json) => Categorie.fromJson(json['categorie']))
+          .map((json) => Categorie.fromJson(json))
           .toList();
     });
   } else {

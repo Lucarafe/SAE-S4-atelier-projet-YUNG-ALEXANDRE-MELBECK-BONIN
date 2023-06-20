@@ -64,6 +64,6 @@ services:
     ports:
       - "60605:80"
     volumes:
-      - ./frontend:/usr/local/apache2/htdocs/
+      - ./frontend/lib:/usr/local/apache2/htdocs/
     networks:
       - miniPress.net

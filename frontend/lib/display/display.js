@@ -18,23 +18,40 @@ export function displayArticles(filteredArticles, articleListe) {
 
         const title = document.createElement('h3');
         const resume = document.createElement('p');
+        const date = document.createElement('p');
         const author = document.createElement('p');
 
         title.textContent = article.titre;
         resume.textContent = article.resume;
+        let dateObject = new Date(article.created_at);
+
+        let readableDate = dateObject.toLocaleDateString('fr-FR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        date.textContent = `Créé le ${readableDate}`;
+
         author.textContent = `Écrit par ${article.auteur}`;
 
+        // Ajouter les éléments
         div.appendChild(title);
         div.appendChild(resume);
+        div.appendChild(date)
         div.appendChild(author);
 
         articleAction(div);
 
+        // Ajout à la liste des articles
         articleListe.appendChild(div);
     });
 }
 
 export function display_articles(articles) {
+    document.getElementById('trie').hidden = false;
     const titreList = document.getElementById('nomListe');
     titreList.textContent = "";
     titreList.textContent = 'Liste des articles :';
@@ -54,36 +71,99 @@ export function display_articles(articles) {
     displayArticles(articles, articleListe);
 }
 
-
 export function display_categorie(categories) {
     const listCategorie = document.getElementById('listCategorie');
+    const categoryList = document.querySelector('.category-list');
+    const categoryNav = document.querySelector('.category-nav');
+    const arrowLeft = document.querySelector('.arrow-left');
+    const arrowRight = document.querySelector('.arrow-right');
 
     const button = document.createElement('button');
+    button.className = 'button';
 
-    button.className = "categorie";
-    button.textContent = 'Tous les articles';
+    const subTitle = document.createElement('h2');
+    subTitle.textContent = 'Tous';
+
+    button.appendChild(subTitle);
     categoriesAction(button);
-    listCategorie.appendChild(button);
+    categoryList.appendChild(button);
     // Créer un élément de liste pour chaque catégorie
     categories.forEach(categ => {
-        var categorie = categ.categorie
-        const li = document.createElement('li');
-        li.setAttribute('url', categ.links.self.href);
-        li.className = "categorie";
-        li.textContent = categorie.titre;
-        categorieAction(li);
+        var categorie = categ.categorie;
+        const button = document.createElement('button');
+        button.setAttribute('url', categ.links.self.href);
+        button.className = 'button';
 
-        // Ajouter l'élément de liste à la liste des catégories
-        listCategorie.appendChild(li);
+        const subTitle = document.createElement('h2');
+        subTitle.textContent = categorie.titre;
+
+        button.appendChild(subTitle);
+        categorieAction(button);
+
+        categoryList.appendChild(button);
     });
+
+    let slideIndex = 0;
+
+    arrowLeft.addEventListener('click', () => {
+        slideIndex--;
+        slideCarousel();
+    });
+
+    arrowRight.addEventListener('click', () => {
+        slideIndex++;
+        slideCarousel();
+    });
+
+    // Ajouter un événement de redimensionnement à la fenêtre
+    window.addEventListener('resize', slideCarousel);
+
+// Fonction slideCarousel mise à jour
+    function slideCarousel() {
+        const buttons = categoryList.querySelectorAll('.button');
+        const buttonWidth = buttons[0].offsetWidth;
+        const maxSlides = Math.floor(categoryList.offsetWidth / buttonWidth);
+
+        if (categories.length <= maxSlides) {
+            // Si toutes les catégories sont affichées et visibles
+            arrowLeft.style.display = 'none';
+            arrowRight.style.display = 'none';
+            categoryList.style.transform = 'translateX(0)';
+        } else {
+            // Sinon, afficher les flèches et appliquer le défilement
+            arrowLeft.style.display = 'block';
+            arrowRight.style.display = 'block';
+
+            if (slideIndex < 0) {
+                slideIndex = categories.length - maxSlides;
+            } else if (slideIndex > categories.length - maxSlides) {
+                slideIndex = 0;
+            }
+
+            categoryList.style.transform = `translateX(-${slideIndex * buttonWidth}px)`;
+        }
+    }
+
+
+
+    // Initialiser le carousel slider
+    slideCarousel();
+
+    // Fixer les flèches de navigation
+    const containerWidth = categoryNav.offsetWidth;
+    const arrowWidth = arrowLeft.offsetWidth;
+
+    arrowLeft.style.left = `-${arrowWidth}px`;
+    arrowRight.style.right = `-${arrowWidth}px`;
+    categoryNav.style.width = `${containerWidth}px`;
 }
 
 export function display_article(art) {
     const titreList = document.getElementById('nomListe');
     const articleListe = document.getElementById('liste');
-
+    document.getElementById('trie').hidden = true;
     articleListe.textContent = "";
-    console.log(art);
+
     // Récupérer le premier article du tableau
     const article = art.article;
 

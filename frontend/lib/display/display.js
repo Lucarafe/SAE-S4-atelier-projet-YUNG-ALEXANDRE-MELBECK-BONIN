@@ -1,51 +1,69 @@
-import {articleAction, categorieAction, userAction} from "../action/addListener.js";
+import {
+    articleAction,
+    ButtonTrieAction,
+    categorieAction,
+    categoriesAction,
+    searchBarAction,
+    userAction
+} from "../action/addListener.js";
+import {config} from "../conf/config.js";
 'use strict'
+
+export function displayArticles(filteredArticles, articleListe) {
+    filteredArticles.forEach(art => {
+        var article = art.article;
+        const div = document.createElement('div');
+        div.className = 'article';
+        div.setAttribute('url', art.links.self.href);
+
+        const title = document.createElement('h3');
+        const resume = document.createElement('p');
+        const author = document.createElement('p');
+
+        title.textContent = article.titre;
+        resume.textContent = article.resume;
+        author.textContent = `Écrit par ${article.auteur}`;
+
+        div.appendChild(title);
+        div.appendChild(resume);
+        div.appendChild(author);
+
+        articleAction(div);
+
+        articleListe.appendChild(div);
+    });
+}
 
 export function display_articles(articles) {
     const titreList = document.getElementById('nomListe');
     titreList.textContent = "";
     titreList.textContent = 'Liste des articles :';
+
+    const searchBar = document.createElement('input');
+    searchBar.setAttribute('type', 'text');
+    searchBar.setAttribute('id', 'searchBar');
+    searchBar.setAttribute('placeholder', 'Rechercher...');
+    titreList.appendChild(searchBar);
+
     const articleListe = document.getElementById('liste');
-
     articleListe.textContent = "";
-    // Parcourir les articles dans l'ordre inverse
-    articles.forEach(art => {
-        var article = art.article;
-        const div = document.createElement('div');
-        div.className = 'article';
-        div.setAttribute('url', art.links.self.href); // Ajout de l'attribut id avec la valeur de l'id de l'article
+    searchBarAction(searchBar, articles);
 
-        const title = document.createElement('h3');
-        const date = document.createElement('p');
-        const author = document.createElement('p');
 
-        // Définir le contenu des éléments
-        title.textContent = article.titre;
-        date.textContent = `Créé le ${article.created_at}`;
-        author.textContent = `Auteur : ${article.auteur}`;
-
-        // Ajouter les éléments
-        div.appendChild(title);
-        div.appendChild(date);
-        div.appendChild(author);
-
-        articleAction(div);
-
-        // Ajout à la liste des articles
-        articleListe.appendChild(div);
-    });
-
+    // Initial display of all articles
+    displayArticles(articles, articleListe);
 }
+
 
 export function display_categorie(categories) {
     const listCategorie = document.getElementById('listCategorie');
 
-    const li = document.createElement('li');
-    li.setAttribute('url', '/api/categories');
-    li.className = "categorie";
-    li.textContent = 'Tous les articles';
-    categorieAction(li);
-    listCategorie.appendChild(li);
+    const button = document.createElement('button');
+
+    button.className = "categorie";
+    button.textContent = 'Tous les articles';
+    categoriesAction(button);
+    listCategorie.appendChild(button);
     // Créer un élément de liste pour chaque catégorie
     categories.forEach(categ => {
         var categorie = categ.categorie
@@ -65,7 +83,7 @@ export function display_article(art) {
     const articleListe = document.getElementById('liste');
 
     articleListe.textContent = "";
-
+    console.log(art);
     // Récupérer le premier article du tableau
     const article = art.article;
 
@@ -93,6 +111,14 @@ export function display_article(art) {
 
     // Ajout du div de l'article à la liste des articles
     articleListe.appendChild(div);
+}
+
+export function display_trie(){
+    const boutonTri = document.getElementById('trie');
+
+    boutonTri.textContent = 'Trier par ordre croissant';
+    boutonTri.dataset.ordre = config.trieAsc;
+    ButtonTrieAction(boutonTri);
 }
 
 

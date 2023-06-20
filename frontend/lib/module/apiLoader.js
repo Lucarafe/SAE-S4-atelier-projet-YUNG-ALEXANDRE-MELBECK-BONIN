@@ -1,7 +1,7 @@
 import {config} from '../conf/config.js';
 
-export function loadArticles(){
-    return fetch(config.entryPoint + '/api/articles')
+export function loadArticles(api = '/api/articles'){
+    return fetch(config.entryPoint + api)
         .then(response => {
             if (response.ok) return response.json();
             else return Promise.reject(new Error(response.statusText))

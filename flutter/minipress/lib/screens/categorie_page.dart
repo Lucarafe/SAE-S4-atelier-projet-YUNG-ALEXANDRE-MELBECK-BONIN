@@ -35,7 +35,9 @@ class _CategoriePageState extends State<CategoriePage> {
 
     if (articlesJson is List<dynamic>) {
       setState(() {
-        articles = articlesJson.map((json) => Article.fromJson(json)).toList();
+        articles = articlesJson
+          .map((json) => Article.fromJson(json))
+          .toList();
       });
     } else {
       throw Exception('Invalid articles data');
@@ -44,6 +46,7 @@ class _CategoriePageState extends State<CategoriePage> {
     throw Exception('Failed to fetch articles');
   }
 }
+
 
 
 

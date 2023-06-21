@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 
 import '../models/article.dart';
 import '../providers/api_provider.dart';
+import 'auteur_articles_page.dart';
 
 class ArticlePage extends StatefulWidget {
-  final Article article;
+  late final Article article;
 
   ArticlePage({required this.article});
 
@@ -16,7 +17,7 @@ class ArticlePage extends StatefulWidget {
 
 class _ArticlePageState extends State<ArticlePage> {
   String? articleContent;
-  String? articleresume;
+  String? articleResume;
 
   @override
   void initState() {
@@ -25,16 +26,30 @@ class _ArticlePageState extends State<ArticlePage> {
   }
 
   void fetchArticleContent() async {
-    final response =
-        await ApiProvider.get('/api/articles/${widget.article.id}');
+    final response = await ApiProvider.get(widget.article.href);
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
       final String contentArticle = data['article']['contenu'];
       final String resumeArticle = data['article']['resume'];
+      final String id = data['article']['id'].toString();
+      final String titre = data['article']['titre'];
+      final String auteur = data['article']['auteur'];
+      final DateTime createdAt = DateTime.parse(data['created_at']);
+      final String hrefAuteur = data['links']['articles_author']['href'];
+      print(id);
+      final Article fetchedArticle = Article(
+        id: id,
+        titre: titre,
+        resume: resumeArticle,
+        contenu: contentArticle,
+        auteur: auteur,
+        createdAt: createdAt,
+        href: widget.article.href,
+        hrefAuteur: hrefAuteur,
+      );
       setState(() {
-        articleContent = contentArticle;
-        articleresume = resumeArticle;
+        widget.article = fetchedArticle;
       });
     } else {
       throw Exception('Failed to fetch article');
@@ -54,15 +69,31 @@ class _ArticlePageState extends State<ArticlePage> {
           children: [
             Text('Titre: ${widget.article.titre}'),
             SizedBox(height: 16),
-            Text('Auteur: ${widget.article.auteur}'),
+            Text('Résumé: ${widget.article.resume}'),
+            SizedBox(height: 16),
+            Text('Contenu: ${widget.article.contenu}'),
+            SizedBox(height: 16),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AuthorArticlesPage(
+                      article: widget.article,
+                    ),
+                  ),
+                );
+              },
+              child: Text(
+                'Auteur: ${widget.article.auteur}',
+                style: TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
             SizedBox(height: 16),
             Text('Créé le: ${widget.article.createdAt.toString()}'),
-            SizedBox(height: 16),
-            if (articleContent != null)
-              Text('resumé : $articleresume'),
-            SizedBox(height: 16),
-            if (articleContent != null)
-              Text('Contenu: $articleContent'),
           ],
         ),
       ),

@@ -10,4 +10,9 @@ class UserService
     {
         return User::all()->toArray();
     }
+
+    public function getUserById($id)
+    {
+        return User::where('id', $id)->get()->toArray();
+    }
 }

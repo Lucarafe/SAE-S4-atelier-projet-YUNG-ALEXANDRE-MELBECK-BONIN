@@ -22,7 +22,9 @@ export function displayArticles(filteredArticles, articleListe) {
         const author = document.createElement('p');
 
         title.textContent = article.titre;
-        resume.textContent = article.resume;
+        let conv = new showdown.Converter();
+        resume.innerHTML = conv.makeHtml(article.resume);
+        console.log(resume.innerHTML)
         let dateObject = new Date(article.created_at);
 
         let readableDate = dateObject.toLocaleDateString('fr-FR', {
@@ -51,9 +53,9 @@ export function displayArticles(filteredArticles, articleListe) {
 }
 
 export function display_articles(articles) {
-    document.getElementById('trie').hidden = false;
-    const titreList = document.getElementById('nomListe');
-    titreList.textContent = "";
+    const form = document.getElementById('searchBar');
+    form.textContent = "";
+    const titreList = document.createElement('h2');
     titreList.textContent = 'Liste des articles :';
 
     const searchBar = document.createElement('input');
@@ -61,9 +63,12 @@ export function display_articles(articles) {
     searchBar.setAttribute('id', 'searchBar');
     searchBar.setAttribute('placeholder', 'Rechercher...');
     titreList.appendChild(searchBar);
-
+    form.appendChild(searchBar);
     const articleListe = document.getElementById('liste');
     articleListe.textContent = "";
+
+    const arti = document.getElementById('articleDetail');
+    arti.textContent = "";
     searchBarAction(searchBar, articles);
 
 
@@ -72,11 +77,7 @@ export function display_articles(articles) {
 }
 
 export function display_categorie(categories) {
-    const listCategorie = document.getElementById('listCategorie');
     const categoryList = document.querySelector('.category-list');
-    const categoryNav = document.querySelector('.category-nav');
-    const arrowLeft = document.querySelector('.arrow-left');
-    const arrowRight = document.querySelector('.arrow-right');
 
     const button = document.createElement('button');
     button.className = 'button';
@@ -103,99 +104,82 @@ export function display_categorie(categories) {
         categoryList.appendChild(button);
     });
 
-    let slideIndex = 0;
-
-    arrowLeft.addEventListener('click', () => {
-        slideIndex--;
-        slideCarousel();
-    });
-
-    arrowRight.addEventListener('click', () => {
-        slideIndex++;
-        slideCarousel();
-    });
-
-    // Ajouter un événement de redimensionnement à la fenêtre
-    window.addEventListener('resize', slideCarousel);
-
-// Fonction slideCarousel mise à jour
-    function slideCarousel() {
-        const buttons = categoryList.querySelectorAll('.button');
-        const buttonWidth = buttons[0].offsetWidth;
-        const maxSlides = Math.floor(categoryList.offsetWidth / buttonWidth);
-
-        if (categories.length <= maxSlides) {
-            // Si toutes les catégories sont affichées et visibles
-            arrowLeft.style.display = 'none';
-            arrowRight.style.display = 'none';
-            categoryList.style.transform = 'translateX(0)';
-        } else {
-            // Sinon, afficher les flèches et appliquer le défilement
-            arrowLeft.style.display = 'block';
-            arrowRight.style.display = 'block';
-
-            if (slideIndex < 0) {
-                slideIndex = categories.length - maxSlides;
-            } else if (slideIndex > categories.length - maxSlides) {
-                slideIndex = 0;
-            }
-
-            categoryList.style.transform = `translateX(-${slideIndex * buttonWidth}px)`;
-        }
-    }
-
-
-
-    // Initialiser le carousel slider
-    slideCarousel();
-
-    // Fixer les flèches de navigation
-    const containerWidth = categoryNav.offsetWidth;
-    const arrowWidth = arrowLeft.offsetWidth;
-
-    arrowLeft.style.left = `-${arrowWidth}px`;
-    arrowRight.style.right = `-${arrowWidth}px`;
-    categoryNav.style.width = `${containerWidth}px`;
 }
 
 export function display_article(art) {
-    const titreList = document.getElementById('nomListe');
     const articleListe = document.getElementById('liste');
-    document.getElementById('trie').hidden = true;
     articleListe.textContent = "";
 
+    const arti = document.getElementById('articleDetail');
+    arti.textContent = "";
+    const form = document.getElementById('form').hidden = true;
+    const hr = document.createElement('hr');
+    const hr2 = document.createElement('hr');
+    const hr3 = document.createElement('hr');
     // Récupérer le premier article du tableau
     const article = art.article;
 
     // Créer un élément div pour afficher l'article
     const div = document.createElement('div');
-    div.className = 'article';
-    div.setAttribute('url', article.url);
+    div.className = 'articleDetail';
 
-    titreList.textContent = article.titre;
+    // Créer un élément img pour afficher l'image de l'article
+    const img = document.createElement('img');
+    img.setAttribute('src', 'image/' +article.img);
+    img.setAttribute('alt', 'Image de l\'article');
+    div.appendChild(img);
+    div.appendChild(hr);
+    // Créer un élément div pour les détails de l'article
+    const detailsDiv = document.createElement('div');
+    detailsDiv.className = 'articleDetails';
 
-    // Créer un élément paragraphe p pour afficher la date de création de l'article
+    // Créer un élément h2 pour le titre de l'article
+    const title = document.createElement('h2');
+    title.textContent = article.titre;
+    detailsDiv.appendChild(title);
+    detailsDiv.appendChild(hr2);
+    // Créer un élément p pour le contenu de l'article
     let conv = new showdown.Converter();
     const contenu = document.createElement('p');
     contenu.innerHTML = conv.makeHtml(article.contenu);
+    detailsDiv.appendChild(contenu);
+    detailsDiv.appendChild(hr3);
+    // Créer un élément div pour les métadonnées de l'article
+    const metadataDiv = document.createElement('div');
+    metadataDiv.className = 'metadata';
 
-    // Créer un élément paragraphe p pour afficher l'auteur de l'article
+    // Créer un élément p pour le nom du créateur de l'article
     const author = document.createElement('p');
     author.setAttribute('url', art.links.articles_author.href);
     userAction(author);
-    author.textContent = article.auteur;
+    author.textContent = `Par ${article.auteur}`;
+    metadataDiv.appendChild(author);
 
-    // Ajouter les éléments au div de l'article
-    div.appendChild(contenu);
-    div.appendChild(author);
+    // Créer un élément p pour la date de création de l'article
+    const createdAt = document.createElement('p');
+    const dateObject = new Date(article.created_at);
+    const readableDate = dateObject.toLocaleDateString('fr-FR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    createdAt.textContent = `Créé le ${readableDate}`;
+    metadataDiv.appendChild(createdAt);
+
+    detailsDiv.appendChild(metadataDiv);
+    div.appendChild(detailsDiv);
 
     // Ajout du div de l'article à la liste des articles
-    articleListe.appendChild(div);
+    arti.appendChild(div);
 }
+
+
 
 export function display_trie(){
     const boutonTri = document.getElementById('trie');
-
+    boutonTri.className = ''
     boutonTri.textContent = 'Trier par ordre croissant';
     boutonTri.dataset.ordre = config.trieAsc;
     ButtonTrieAction(boutonTri);

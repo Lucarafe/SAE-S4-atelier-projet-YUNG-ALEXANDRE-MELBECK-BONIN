@@ -14,6 +14,51 @@ h1 {
     text-align: center;
 }
 
+#form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 0 0 2px #333;
+    padding: 0.25%;
+}
+
+#searchBar {
+    flex-grow: 1;
+    padding: 0.5%;
+    font-size: 16px;
+    border-radius: 5px;
+    order: 1;
+}
+
+#trie {
+    flex-shrink: 0;
+    padding: 10px;
+    margin-right: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    #form {
+        flex-wrap: wrap;
+        padding: 1%;
+    }
+
+    #searchBar {
+        flex-basis: 100%;
+        margin-bottom: 10px;
+    }
+
+    #trie {
+        flex-basis: 100%;
+    }
+}
+
+
 .category-container {
     position: relative;
     overflow: hidden;
@@ -28,7 +73,14 @@ h1 {
 
 .category-list {
     display: flex;
-    transition: transform 0.3s ease-in-out;
+    overflow-x: auto;
+}
+
+.button {
+    border-radius: 20px;
+    margin-top: 1%;
+    flex-shrink: 0;
+    margin-bottom: 1%;
 }
 
 .category-list button {
@@ -46,25 +98,6 @@ h1 {
     margin: 0;
 }
 
-.arrow-left,
-.arrow-right {
-    padding: 8px 6px; /* Ajustement des valeurs de padding */
-    background-color: #333;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    opacity: 0.8; /* Opacité initiale des flèches */
-    transition: opacity 0.3s ease; /* Transition de l'opacité */
-    margin-top: 14px; /* Alignement avec les boutons catégories */
-    margin-bottom: 10px;
-    height: 30px; /* Hauteur fixe de la flèche */
-}
-
-.arrow-left:hover,
-.arrow-right:hover {
-    opacity: 1; /* Opacité au survol des flèches */
-}
-
 .category-nav {
     position: absolute;
     top: 50%;
@@ -73,28 +106,23 @@ h1 {
 
 .category-nav-left {
     left: 10px;
-    padding-top: 5px; /* Padding top pour baisser légèrement la flèche */
+    padding-top: 5px;
 }
 
 .category-nav-right {
     right: 10px;
-    padding-top: 5px; /* Padding top pour baisser légèrement la flèche */
-}
-
-.button {
-    border-radius: 20px; /* Ajout de la bordure arrondie */
-    margin-top: 10px; /* Espacement par rapport au header */
+    padding-top: 5px;
 }
 
 .article-list {
     display: flex;
     flex-wrap: wrap;
     margin-top: 20px;
-    padding: 0 10px; /* Ajouter un espacement horizontal */
+    padding: 0 10px;
 }
 
 .article {
-    width: calc(30%);
+    width: calc(30% - 1%);
     background-color: #f2f2f2;
     padding: 1%;
     margin: 0.5%;
@@ -103,10 +131,8 @@ h1 {
     transition: background-color 0.3s ease;
 }
 
-
-
 .article:hover {
-    background-color: #e0e0e0; /* Couleur de fond au survol */
+    background-color: #e0e0e0;
     cursor: pointer;
 }
 
@@ -117,3 +143,51 @@ h1 {
 .article p {
     margin-bottom: 5px;
 }
+
+.articleDetail {
+    background-color: #444;
+    color: #fff;
+    padding: 20px;
+    margin: 0 auto;
+    width: 80%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.articleDetail img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.articleDetails h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.articleDetails p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.articleDetails h3 {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.articleDetails ul,
+.articleDetails ol {
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.metadata p {
+    font-size: 14px;
+    margin: 0;
+}
+
+.metadata p:last-child {
+    margin-top: 10px;
+}
+

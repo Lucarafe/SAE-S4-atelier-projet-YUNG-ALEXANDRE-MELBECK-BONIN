@@ -37,6 +37,8 @@ class postAuthAction {
         } catch (AuthException $e){
             // En cas d'erreur d'authentification, redirige vers la page de connexion
             $url = $routeParser->urlFor('connection');
+            return $response->withHeader('Location', $url)->withStatus(302);
+
         }
         // Redirige vers la page des articles
         return $response->withHeader('Location', $url)->withStatus(302);

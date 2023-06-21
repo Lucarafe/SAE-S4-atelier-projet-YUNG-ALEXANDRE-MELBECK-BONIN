@@ -19,6 +19,8 @@ class _HomePageState extends State<HomePage> {
   List<Article> articles = [];
   List<Categorie> categories = [];
 
+  bool isDescendingOrder = true; 
+
   @override
   void initState() {
     super.initState();
@@ -31,44 +33,57 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchArticles() async {
-  final response = await ApiProvider.get('/api/articles?date-desc');
-  if (response.statusCode == 200) {
-    final Map<String, dynamic> data = json.decode(response.body);
-    final List<dynamic> articlesJson = data['articles'];
-    setState(() {
-      articles = articlesJson
-          .map((json) => Article.fromJson(json))
-          .toList();
-    });
-  } else {
-    throw Exception('Failed to fetch articles');
+    final order = isDescendingOrder ? 'date-desc' : 'date-asc';
+    final response = await ApiProvider.get('/api/articles?sort=$order');
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      final List<dynamic> articlesJson = data['articles'];
+      setState(() {
+        articles = articlesJson.map((json) => Article.fromJson(json)).toList();
+      });
+    } else {
+      throw Exception('Failed to fetch articles');
+    }
   }
-}
-
 
   Future<void> fetchCategories() async {
-  final response = await ApiProvider.get('/api/categories');
+    final response = await ApiProvider.get('/api/categories');
 
-  if (response.statusCode == 200) {
-    final Map<String, dynamic> data = json.decode(response.body);
-    final List<dynamic> categoriesJson = data['categories'];
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      final List<dynamic> categoriesJson = data['categories'];
 
-    setState(() {
-      categories = categoriesJson
-          .map((json) => Categorie.fromJson(json))
-          .toList();
-    });
-  } else {
-    throw Exception('Failed to fetch categories');
+      setState(() {
+        categories = categoriesJson
+            .map((json) => Categorie.fromJson(json))
+            .toList();
+      });
+    } else {
+      throw Exception('Failed to fetch categories');
+    }
   }
-}
 
+  void toggleSortOrder() {
+    setState(() {
+      isDescendingOrder = !isDescendingOrder;
+    });
+    fetchArticles();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('MiniPress'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.sort_by_alpha),
+            onPressed: toggleSortOrder,
+            tooltip: isDescendingOrder
+                ? 'Trié par ordre croissant'
+                : 'Trié par ordre décroissant',
+          ),
+        ],
       ),
       body: Column(
         children: [

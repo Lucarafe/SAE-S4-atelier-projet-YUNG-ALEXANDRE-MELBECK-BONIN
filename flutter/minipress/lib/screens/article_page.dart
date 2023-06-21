@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 
 import '../models/article.dart';
 import '../providers/api_provider.dart';
+import 'auteur_articles_page.dart';
 
 class ArticlePage extends StatefulWidget {
-  final Article article;
+  Article article;
 
   ArticlePage({required this.article});
 
@@ -16,7 +17,8 @@ class ArticlePage extends StatefulWidget {
 
 class _ArticlePageState extends State<ArticlePage> {
   String? articleContent;
-  String? articleresume;
+  String? articleResume;
+  Article? fetchedArticle;
 
   @override
   void initState() {
@@ -25,17 +27,30 @@ class _ArticlePageState extends State<ArticlePage> {
   }
 
   void fetchArticleContent() async {
-    final response =
-        await ApiProvider.get('/api/articles/${widget.article.id}');
+    final response = await ApiProvider.get(widget.article.href);
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
-      final String contentArticle = data['article']['contenu'];
+
+      final String contenuArticle = data['article']['contenu'];
       final String resumeArticle = data['article']['resume'];
-      setState(() {
-        articleContent = contentArticle;
-        articleresume = resumeArticle;
-      });
+      final String id = data['article']['id'].toString();
+      final String titre = data['article']['titre'];
+      final String auteur = data['article']['auteur'];
+      final DateTime createdAt = DateTime.parse(data['article']['created_at']);
+      final String hrefAuteur = data['links']['articles_author']['href'];
+
+      fetchedArticle = Article(
+        id: id,
+        titre: titre, 
+        resume: resumeArticle,
+        contenu: contenuArticle, 
+        auteur: auteur, 
+        createdAt: createdAt, 
+        href: widget.article.href, 
+        hrefAuteur: hrefAuteur);
+      print(fetchedArticle);
+      setState(() {});
     } else {
       throw Exception('Failed to fetch article');
     }
@@ -45,24 +60,38 @@ class _ArticlePageState extends State<ArticlePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.article.titre),
+        title: Text(fetchedArticle?.titre ?? widget.article.titre),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Titre: ${widget.article.titre}'),
-            SizedBox(height: 16),
-            Text('Auteur: ${widget.article.auteur}'),
-            SizedBox(height: 16),
-            Text('Créé le: ${widget.article.createdAt.toString()}'),
-            SizedBox(height: 16),
-            if (articleContent != null)
-              Text('resumé : $articleresume'),
-            SizedBox(height: 16),
-            if (articleContent != null)
-              Text('Contenu: $articleContent'),
+            Text('Titre: ${fetchedArticle?.titre ?? widget.article.titre}'),
+            const SizedBox(height: 16),
+            Text('contenu : ${fetchedArticle?.contenu ?? widget.article.contenu}'),
+            const SizedBox(height: 16),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AuthorArticlesPage(
+                      article: fetchedArticle ?? widget.article,
+                    ),
+                  ),
+                );
+              },
+              child: Text(
+                'Auteur: ${fetchedArticle?.auteur ?? widget.article.auteur}',
+                style: const TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text('Créé le: ${fetchedArticle?.createdAt.toString() ?? widget.article.createdAt.toString()}'),
           ],
         ),
       ),

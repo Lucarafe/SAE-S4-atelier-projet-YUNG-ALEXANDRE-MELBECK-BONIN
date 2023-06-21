@@ -9,6 +9,7 @@ import {
 import {config} from "../conf/config.js";
 'use strict'
 
+// Fonction pour afficher les articles dans la liste
 export function displayArticles(filteredArticles, articleListe) {
     filteredArticles.forEach(art => {
         var article = art.article;
@@ -21,6 +22,7 @@ export function displayArticles(filteredArticles, articleListe) {
         const date = document.createElement('p');
         const author = document.createElement('p');
 
+        // Affichage des informations de l'article
         title.textContent = article.titre;
         let conv = new showdown.Converter();
         resume.innerHTML = conv.makeHtml(article.resume);
@@ -39,19 +41,20 @@ export function displayArticles(filteredArticles, articleListe) {
 
         author.textContent = `Écrit par ${article.auteur}`;
 
-        // Ajouter les éléments
+        // Ajouter les éléments à la div de l'article
         div.appendChild(title);
         div.appendChild(resume);
         div.appendChild(date)
         div.appendChild(author);
-
+        // Appel de l'action pour l'article
         articleAction(div);
 
-        // Ajout à la liste des articles
+        // Ajout de la div de l'article à la liste des articles
         articleListe.appendChild(div);
     });
 }
 
+// Fonction pour afficher tous les articles
 export function display_articles(articles) {
     const form = document.getElementById('form');
     form.style.display = 'flex';
@@ -72,10 +75,11 @@ export function display_articles(articles) {
     searchBarAction(searchBar, articles);
 
 
-    // Initial display of all articles
+    // Affichage initial de tous les articles
     displayArticles(articles, articleListe);
 }
 
+// Fonction pour afficher les catégories
 export function display_categorie(categories) {
     const categoryList = document.querySelector('.category-list');
 
@@ -88,7 +92,8 @@ export function display_categorie(categories) {
     button.appendChild(subTitle);
     categoriesAction(button);
     categoryList.appendChild(button);
-    // Créer un élément de liste pour chaque catégorie
+
+    // Créer un élément de bouton pour chaque catégorie
     categories.forEach(categ => {
         var categorie = categ.categorie;
         const button = document.createElement('button');
@@ -106,6 +111,7 @@ export function display_categorie(categories) {
 
 }
 
+// Fonction pour afficher un article spécifique
 export function display_article(art) {
     const articleListe = document.getElementById('liste');
     articleListe.textContent = "";
@@ -179,7 +185,7 @@ export function display_article(art) {
 }
 
 
-
+// Fonction pour afficher le bouton de tri
 export function display_trie(){
     const boutonTri = document.getElementById('trie');
     boutonTri.className = ''

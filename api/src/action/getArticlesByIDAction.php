@@ -26,6 +26,7 @@ class getArticlesByIDAction
                 'contenu' => $article->contenu,
                 'img' => $article->img,
                 'auteur' => $article->auteur,
+                'idAuteur' => $article->idAuteur,
                 'idCategorie' => $article->idCategorie,
                 'created_at' => $article->created_at,
                 'updated_at' => $article->updated_at,

@@ -37,19 +37,21 @@ class _ArticlePageState extends State<ArticlePage> {
       final String id = data['article']['id'].toString();
       final String titre = data['article']['titre'];
       final String auteur = data['article']['auteur'];
-      final DateTime createdAt = DateTime.parse(data['article']['created_at']);
-      final String hrefAuteur = data['links']['articles_author']['href'];
+      final DateTime createdAt =
+          DateTime.parse(data['article']['created_at']);
+      final String hrefAuteur =
+          data['links']['articles_author']['href'];
 
       fetchedArticle = Article(
         id: id,
-        titre: titre, 
+        titre: titre,
         resume: resumeArticle,
-        contenu: contenuArticle, 
-        auteur: auteur, 
-        createdAt: createdAt, 
-        href: widget.article.href, 
-        hrefAuteur: hrefAuteur);
-      print(fetchedArticle);
+        contenu: contenuArticle,
+        auteur: auteur,
+        createdAt: createdAt,
+        href: widget.article.href,
+        hrefAuteur: hrefAuteur,
+      );
       setState(() {});
     } else {
       throw Exception('Failed to fetch article');
@@ -62,37 +64,42 @@ class _ArticlePageState extends State<ArticlePage> {
       appBar: AppBar(
         title: Text(fetchedArticle?.titre ?? widget.article.titre),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Titre: ${fetchedArticle?.titre ?? widget.article.titre}'),
-            const SizedBox(height: 16),
-            Text('contenu : ${fetchedArticle?.contenu ?? widget.article.contenu}'),
-            const SizedBox(height: 16),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AuthorArticlesPage(
-                      article: fetchedArticle ?? widget.article,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                  'Titre: ${fetchedArticle?.titre ?? widget.article.titre}'),
+              const SizedBox(height: 16),
+              Text(
+                  'contenu : ${fetchedArticle?.contenu ?? widget.article.contenu}'),
+              const SizedBox(height: 16),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AuthorArticlesPage(
+                        article: fetchedArticle ?? widget.article,
+                      ),
                     ),
+                  );
+                },
+                child: Text(
+                  'Auteur: ${fetchedArticle?.auteur ?? widget.article.auteur}',
+                  style: const TextStyle(
+                    color: Colors.blue,
+                    decoration: TextDecoration.underline,
                   ),
-                );
-              },
-              child: Text(
-                'Auteur: ${fetchedArticle?.auteur ?? widget.article.auteur}',
-                style: const TextStyle(
-                  color: Colors.blue,
-                  decoration: TextDecoration.underline,
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Text('Créé le: ${fetchedArticle?.createdAt.toString() ?? widget.article.createdAt.toString()}'),
-          ],
+              const SizedBox(height: 16),
+              Text(
+                  'Créé le: ${fetchedArticle?.createdAt.toString() ?? widget.article.createdAt.toString()}'),
+            ],
+          ),
         ),
       ),
     );

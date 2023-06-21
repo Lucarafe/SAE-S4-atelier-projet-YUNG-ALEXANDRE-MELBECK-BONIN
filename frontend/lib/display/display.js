@@ -53,17 +53,17 @@ export function displayArticles(filteredArticles, articleListe) {
 }
 
 export function display_articles(articles) {
-    const form = document.getElementById('searchBar');
-    form.textContent = "";
-    const titreList = document.createElement('h2');
-    titreList.textContent = 'Liste des articles :';
+    const form = document.getElementById('form');
+    form.style.display = 'flex';
+    const search = document.getElementById('searchBar');
+    search.innerText = "";
 
     const searchBar = document.createElement('input');
     searchBar.setAttribute('type', 'text');
     searchBar.setAttribute('id', 'searchBar');
     searchBar.setAttribute('placeholder', 'Rechercher...');
-    titreList.appendChild(searchBar);
-    form.appendChild(searchBar);
+
+    search.appendChild(searchBar);
     const articleListe = document.getElementById('liste');
     articleListe.textContent = "";
 
@@ -110,9 +110,12 @@ export function display_article(art) {
     const articleListe = document.getElementById('liste');
     articleListe.textContent = "";
 
+
     const arti = document.getElementById('articleDetail');
     arti.textContent = "";
-    const form = document.getElementById('form').hidden = true;
+    let form = document.getElementById('form');
+    form.style.display = 'none';
+
     const hr = document.createElement('hr');
     const hr2 = document.createElement('hr');
     const hr3 = document.createElement('hr');

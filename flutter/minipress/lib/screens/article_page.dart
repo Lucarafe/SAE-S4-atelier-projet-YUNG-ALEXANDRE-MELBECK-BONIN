@@ -33,9 +33,11 @@ class _ArticlePageState extends State<ArticlePage> {
       final String contentArticle = data['article']['contenu'];
       final String resumeArticle = data['article']['resume'];
       final String id = data['article']['id'].toString();
-      final String titre = data['article']['titre'].toString();
-      final String auteur = data['article']['auteur'].toString();
+      final String titre = data['article']['titre'];
+      final String auteur = data['article']['auteur'];
       final DateTime createdAt = DateTime.parse(data['created_at']);
+      final String hrefAuteur = data['links']['articles_author']['href'];
+      print(id);
       final Article fetchedArticle = Article(
         id: id,
         titre: titre,
@@ -44,11 +46,9 @@ class _ArticlePageState extends State<ArticlePage> {
         auteur: auteur,
         createdAt: createdAt,
         href: widget.article.href,
+        hrefAuteur: hrefAuteur,
       );
-
       setState(() {
-        articleContent = contentArticle;
-        articleResume = resumeArticle;
         widget.article = fetchedArticle;
       });
     } else {
@@ -79,7 +79,7 @@ class _ArticlePageState extends State<ArticlePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => AuthorArticlesPage(
-                      author: widget.article.auteur, articles: const [],
+                      article: widget.article,
                     ),
                   ),
                 );

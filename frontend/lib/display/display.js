@@ -134,7 +134,7 @@ export function display_article(art) {
 
     // Créer un élément img pour afficher l'image de l'article
     const img = document.createElement('img');
-    img.setAttribute('src', 'image/' +article.img);
+    img.setAttribute('src', 'image/' + article.img.trim());
     img.setAttribute('alt', 'Image de l\'article');
     div.appendChild(img);
     div.appendChild(hr);

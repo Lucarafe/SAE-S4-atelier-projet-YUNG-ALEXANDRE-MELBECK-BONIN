@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import 'providers/article_provider.dart';
 import 'screens/home_page.dart';
 
-void main() => runApp(const MiniPressApp());
+void main() {
+  runApp(MyApp());
+}
 
-class MiniPressApp extends StatelessWidget {
-  const MiniPressApp({super.key});
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'MiniPress',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ArticleProvider()),
+      ],
+      child: MaterialApp(
+        title: 'MiniPress',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: HomePage(),
       ),
-      home: const HomePage(),
     );
   }
 }

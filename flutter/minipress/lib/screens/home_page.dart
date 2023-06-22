@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../models/article.dart';
 import '../models/categorie.dart';
 import '../providers/api_provider.dart';
+import 'article_filter_page.dart';
 import 'article_page.dart';
 import 'categorie_page.dart';
 
@@ -18,8 +19,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Article> articles = [];
   List<Categorie> categories = [];
-
-  bool isDescendingOrder = true; 
+  List<Article> filteredArticles = [];
+  TextEditingController searchKeywordController = TextEditingController();
+  bool isDescendingOrder = true;
+  String searchKeyword = ''; 
 
   @override
   void initState() {
@@ -40,6 +43,7 @@ class _HomePageState extends State<HomePage> {
       final List<dynamic> articlesJson = data['articles'];
       setState(() {
         articles = articlesJson.map((json) => Article.fromJson(json)).toList();
+        filteredArticles = articles;
       });
     } else {
       throw Exception('Failed to fetch articles');
@@ -70,11 +74,56 @@ class _HomePageState extends State<HomePage> {
     fetchArticles();
   }
 
+  void filterArticles() {
+  setState(() {
+    filteredArticles = articles.where((article) {
+      final titleMatches = article.titre
+          .toLowerCase()
+          .contains(searchKeyword.toLowerCase());
+      final summaryMatches = article.resume
+          .toLowerCase()
+          .contains(searchKeyword.toLowerCase());
+      return titleMatches || summaryMatches;
+    }).toList();
+  });
+}
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MiniPress'),
+        title: Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: ArticleSearchDelegate(filteredArticles),
+
+                );
+              },
+              tooltip: 'Rechercher',
+            ),
+            Expanded(
+              child: TextField(
+              controller: searchKeywordController,
+              onChanged: (value) {
+                setState(() {
+                  searchKeyword = value;
+                });
+                filterArticles();
+              },
+              decoration: InputDecoration(
+              hintText: 'Rechercher...',
+              border: InputBorder.none,
+          ),
+        ),
+      ),
+            Text('MiniPress'),
+          ],
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.sort_by_alpha),
@@ -122,9 +171,9 @@ class _HomePageState extends State<HomePage> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: articles.length,
+              itemCount: filteredArticles.length,
               itemBuilder: (context, index) {
-                final article = articles[index];
+                final article = filteredArticles[index];
                 return ListTile(
                   title: Text(article.titre),
                   subtitle: Text(

@@ -50,10 +50,12 @@ class _HomePageState extends State<HomePage> {
       builder: (context, articleProvider, _) {
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.grey[800],
             title: Row(
               children: [
                 IconButton(
                   icon: Icon(Icons.search),
+                  color: Colors.white,
                   onPressed: () {
                     showSearch(
                       context: context,
@@ -68,6 +70,9 @@ class _HomePageState extends State<HomePage> {
                 Text(
                   'MiniPress',
                   textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
                 Spacer(),
               ],
@@ -75,6 +80,7 @@ class _HomePageState extends State<HomePage> {
             actions: [
               IconButton(
                 icon: Icon(Icons.sort_by_alpha),
+                color: Colors.white,
                 onPressed: articleProvider.toggleSortOrder,
                 tooltip: articleProvider.isDescendingOrder
                     ? 'Trié par ordre croissant'
@@ -86,6 +92,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Container(
                 height: 50,
+                color: Colors.grey[200],
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: categories.length,
@@ -110,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.white,
                             ),
                           ),
-                          backgroundColor: Colors.blue,
+                          backgroundColor: Colors.blueGrey,
                         ),
                       ),
                     );
@@ -122,19 +129,46 @@ class _HomePageState extends State<HomePage> {
                   itemCount: articleProvider.filteredArticles.length,
                   itemBuilder: (context, index) {
                     final article = articleProvider.filteredArticles[index];
-                    return ListTile(
-                      title: Text(article.titre),
-                      subtitle: Text(
-                          'Auteur: ${article.auteur} | Créé le: ${article.createdAt.year}-${article.createdAt.month}-${article.createdAt.day}'),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ArticlePage(article: article),
+                    return Card(
+                      elevation: 2,
+                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      child: ListTile(
+                        title: Text(
+                          article.titre,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
                           ),
-                        );
-                      },
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 4),
+                            Text(
+                              'Auteur: ${article.auteur}',
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                            SizedBox(height: 2),
+                            Text(
+                              'Créé le: ${article.createdAt.year}-${article.createdAt.month}-${article.createdAt.day}',
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                          ],
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ArticlePage(article: article),
+                            ),
+                          );
+                        },
+                      ),
                     );
                   },
                 ),

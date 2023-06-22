@@ -6,9 +6,8 @@ import '../models/article.dart';
 import '../providers/api_provider.dart';
 import 'auteur_articles_page.dart';
 
-// ignore: must_be_immutable
 class ArticlePage extends StatefulWidget {
-  Article article;
+  final Article article;
 
   ArticlePage({required this.article});
 
@@ -43,53 +42,75 @@ class _ArticlePageState extends State<ArticlePage> {
       final String image = data['article']['img'];
       fetchedArticle = Article(
         id: id,
-        titre: titre, 
+        titre: titre,
         resume: resumeArticle,
-        contenu: contenuArticle, 
-        auteur: auteur, 
-        createdAt: createdAt, 
-        href: widget.article.href, 
+        contenu: contenuArticle,
+        auteur: auteur,
+        createdAt: createdAt,
+        href: widget.article.href,
         hrefAuteur: hrefAuteur,
-        image: image);
+        image: image,
+      );
       setState(() {});
     } else {
       throw Exception('Failed to fetch article');
     }
   }
 
-@override
-Widget build(BuildContext context) {
-
-  return Scaffold(
-    appBar: AppBar(
-      title: Text(fetchedArticle?.titre ?? widget.article.titre),
-
-      backgroundColor: Colors.grey,
-    ),
-    body: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 16),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 16),
-                  if ((fetchedArticle?.image != "") || (widget.article.image != ""))
-                    Image.asset(fetchedArticle?.image ?? widget.article.image),
-                ],
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(fetchedArticle?.titre ?? widget.article.titre),
+        backgroundColor: Colors.grey[800],
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 16),
+                          if ((fetchedArticle?.image != "") ||
+                              (widget.article.image != ""))
+                            Image.asset(
+                                fetchedArticle?.image ?? widget.article.image),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    MarkdownBody(
+                      data: fetchedArticle?.contenu ?? widget.article.contenu,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Auteur: ${fetchedArticle?.auteur ?? widget.article.auteur}',
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Créé le: ${fetchedArticle?.createdAt.toString() ?? widget.article.createdAt.toString()}',
+                    ),
+                  ],
+                ),
               ),
             ),
-
-            const SizedBox(height: 16),
-            MarkdownBody(
-              data: fetchedArticle?.contenu ?? widget.article.contenu,
+          ),
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(8),
             ),
-            const SizedBox(height: 16),
-            GestureDetector(
+            padding: EdgeInsets.all(16),
+            child: GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
@@ -100,25 +121,21 @@ Widget build(BuildContext context) {
                   ),
                 );
               },
-              child: Text(
-                'Auteur: ${fetchedArticle?.auteur ?? widget.article.auteur}',
-                style: const TextStyle(
-                  color: Colors.blue,
-                  decoration: TextDecoration.underline,
+              child: Center(
+                child: Text(
+                  'Voir tous les articles de cet auteur',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[800],
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            Text('Créé le: ${fetchedArticle?.createdAt.toString() ?? widget.article.createdAt.toString()}'),
-          ],
-
-        ),
+          ),
+        ],
       ),
-    ),
-  );
-}
-
-
-
-
+    );
+  }
 }

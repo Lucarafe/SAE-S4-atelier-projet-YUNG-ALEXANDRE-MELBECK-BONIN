@@ -34,10 +34,12 @@ class _CategoriePageState extends State<CategoriePage> {
           },
           child: Scaffold(
             appBar: AppBar(
+              backgroundColor: Colors.grey[800],
               title: Row(
                 children: [
                   IconButton(
                     icon: Icon(Icons.search),
+                    color: Colors.white,
                     onPressed: () {
                       showSearch(
                         context: context,
@@ -47,7 +49,12 @@ class _CategoriePageState extends State<CategoriePage> {
                     },
                     tooltip: 'Rechercher',
                   ),
-                  Text(widget.categorie.titre),
+                  Text(
+                    widget.categorie.titre,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -56,21 +63,47 @@ class _CategoriePageState extends State<CategoriePage> {
               child: ListView.builder(
                 itemCount: articleProvider.filteredArticles.length,
                 itemBuilder: (context, index) {
-                  final article =
-                      articleProvider.filteredArticles[index];
-                  return ListTile(
-                    title: Text(article.titre),
-                    subtitle: Text(
-                        'Auteur: ${article.auteur} | Créé le: ${article.createdAt.year}-${article.createdAt.month}-${article.createdAt.day}'),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ArticlePage(article: article),
+                  final article = articleProvider.filteredArticles[index];
+                  return Card(
+                    elevation: 2,
+                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    child: ListTile(
+                      title: Text(
+                        article.titre,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
                         ),
-                      );
-                    },
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 4),
+                          Text(
+                            'Auteur: ${article.auteur}',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                            ),
+                          ),
+                          SizedBox(height: 2),
+                          Text(
+                            'Créé le: ${article.createdAt.year}-${article.createdAt.month}-${article.createdAt.day}',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ArticlePage(article: article),
+                          ),
+                        );
+                      },
+                    ),
                   );
                 },
               ),

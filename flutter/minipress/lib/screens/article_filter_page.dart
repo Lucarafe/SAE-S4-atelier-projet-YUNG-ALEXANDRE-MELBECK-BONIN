@@ -49,19 +49,46 @@ class ArticleSearchDelegate extends SearchDelegate<String> {
       itemCount: searchResults.length,
       itemBuilder: (context, index) {
         final article = searchResults[index];
-        return ListTile(
-          title: Text(article.titre),
-          subtitle: Text(
-              'Auteur: ${article.auteur} | Créé le: ${article.createdAt.year}-${article.createdAt.month}-${article.createdAt.day}'),
-          onTap: () {
-            close(context, article.titre);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ArticlePage(article: article),
+        return Card(
+          elevation: 2,
+          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          child: ListTile(
+            title: Text(
+              article.titre,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
               ),
-            );
-          },
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 4),
+                Text(
+                  'Auteur: ${article.auteur}',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                  ),
+                ),
+                SizedBox(height: 2),
+                Text(
+                  'Créé le: ${article.createdAt.year}-${article.createdAt.month}-${article.createdAt.day}',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                  ),
+                ),
+                SizedBox(height: 4),
+              ],
+            ),
+            onTap: () {
+              close(context, article.titre);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ArticlePage(article: article),
+                ),
+              );
+            },
+          ),
         );
       },
     );

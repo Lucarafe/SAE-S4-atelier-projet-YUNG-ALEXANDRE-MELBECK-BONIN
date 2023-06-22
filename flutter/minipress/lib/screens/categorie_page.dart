@@ -1,9 +1,9 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import '../providers/api_provider.dart';
-import '../models/article.dart';
 import '../models/categorie.dart';
+import '../providers/article_provider.dart';
+import 'article_filter_page.dart';
 import 'article_page.dart';
+import 'package:provider/provider.dart';
 
 class CategoriePage extends StatefulWidget {
   final Categorie categorie;
@@ -15,68 +15,63 @@ class CategoriePage extends StatefulWidget {
 }
 
 class _CategoriePageState extends State<CategoriePage> {
-  List<Article> articles = [];
-
   @override
   void initState() {
     super.initState();
-    fetchData();
+    Provider.of<ArticleProvider>(context, listen: false)
+        .fetchArticlesCategorie(widget.categorie.id);
   }
-
-  void fetchData() async {
-    await fetchArticles(widget.categorie.id);
-  }
-
-  Future<void> fetchArticles(String categoryId) async {
-  final response = await ApiProvider.get('/api/categories/$categoryId/articles');
-  if (response.statusCode == 200) {
-    final Map<String, dynamic> data = json.decode(response.body);
-    final dynamic articlesJson = data['articles'];
-
-    if (articlesJson is List<dynamic>) {
-      setState(() {
-        articles = articlesJson
-          .map((json) => Article.fromJson(json))
-          .toList();
-      });
-    } else {
-      throw Exception('Invalid articles data');
-    }
-  } else {
-    throw Exception('Failed to fetch articles');
-  }
-}
-
-
-
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.categorie.titre),
-      ),
-      body: Container(
-        padding: EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemCount: articles.length,
-          itemBuilder: (context, index) {
-            final article = articles[index];
-            return ListTile(
-              title: Text(article.titre),
-              subtitle: Text('Auteur: ${article.auteur} | Créé le: ${article.createdAt.year}-${article.createdAt.month}-${article.createdAt.day}'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ArticlePage(article: article),
+    return Consumer<ArticleProvider>(
+      builder: (context, articleProvider, _) {
+        print(widget.categorie.id);
+        return Scaffold(
+          appBar: AppBar(
+            title: Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    showSearch(
+                      context: context,
+                      delegate: ArticleSearchDelegate(
+                          articleProvider.filteredArticles),
+                    );
+                  },
+                  tooltip: 'Rechercher',
+                ),
+                Text(widget.categorie.titre),
+              ],
+            ),
+          ),
+          body: Container(
+            padding: EdgeInsets.all(16.0),
+            child: ListView.builder(
+                    itemCount: articleProvider.filteredArticles.length,
+                    itemBuilder: (context, index) {
+                      final article =
+                          articleProvider.filteredArticles[index];
+                      return ListTile(
+                        title: Text(article.titre),
+                        subtitle: Text(
+                            'Auteur: ${article.auteur} | Créé le: ${article.createdAt.year}-${article.createdAt.month}-${article.createdAt.day}'),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ArticlePage(article: article),
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
-                );
-              },
-            );
-          },
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

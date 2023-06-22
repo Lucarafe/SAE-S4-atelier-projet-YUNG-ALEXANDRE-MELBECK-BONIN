@@ -56,7 +56,7 @@ class _ArticlePageState extends State<ArticlePage> {
       throw Exception('Failed to fetch article');
     }
   }
-    
+
 @override
 Widget build(BuildContext context) {
 
@@ -115,7 +115,6 @@ Widget build(BuildContext context) {
         ),
       ),
     ),
-
   );
 }
 

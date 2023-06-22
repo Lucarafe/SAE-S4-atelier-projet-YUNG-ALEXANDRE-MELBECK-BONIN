@@ -64,20 +64,12 @@ class _HomePageState extends State<HomePage> {
                   },
                   tooltip: 'Rechercher',
                 ),
-                Expanded(
-                  child: TextField(
-                    controller: articleProvider.searchKeywordController,
-                    onChanged: (value) {
-                      articleProvider.searchKeyword = value;
-                      articleProvider.filterArticles();
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Rechercher...',
-                      border: InputBorder.none,
-                    ),
-                  ),
+                Spacer(),
+                Text(
+                  'MiniPress',
+                  textAlign: TextAlign.center,
                 ),
-                Text('MiniPress'),
+                Spacer(),
               ],
             ),
             actions: [

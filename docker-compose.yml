@@ -65,5 +65,6 @@ services:
       - "60605:80"
     volumes:
       - ./frontend/lib:/usr/local/apache2/htdocs/
+      - ./assets:/usr/local/apache2/htdocs/assets
     networks:
       - miniPress.net

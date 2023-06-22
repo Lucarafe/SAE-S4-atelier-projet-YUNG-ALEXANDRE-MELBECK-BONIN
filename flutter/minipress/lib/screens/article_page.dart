@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-
+import 'package:flutter_markdown/flutter_markdown.dart';
 import '../models/article.dart';
 import '../providers/api_provider.dart';
 import 'auteur_articles_page.dart';
 
+// ignore: must_be_immutable
 class ArticlePage extends StatefulWidget {
   Article article;
 
@@ -39,7 +40,7 @@ class _ArticlePageState extends State<ArticlePage> {
       final String auteur = data['article']['auteur'];
       final DateTime createdAt = DateTime.parse(data['article']['created_at']);
       final String hrefAuteur = data['links']['articles_author']['href'];
-
+      final String image = data['article']['img'];
       fetchedArticle = Article(
         id: id,
         titre: titre, 
@@ -48,28 +49,45 @@ class _ArticlePageState extends State<ArticlePage> {
         auteur: auteur, 
         createdAt: createdAt, 
         href: widget.article.href, 
-        hrefAuteur: hrefAuteur);
-      print(fetchedArticle);
+        hrefAuteur: hrefAuteur,
+        image: image);
       setState(() {});
     } else {
       throw Exception('Failed to fetch article');
     }
   }
+    
+@override
+Widget build(BuildContext context) {
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(fetchedArticle?.titre ?? widget.article.titre),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
+  return Scaffold(
+    appBar: AppBar(
+      title: Text(fetchedArticle?.titre ?? widget.article.titre),
+
+      backgroundColor: Colors.grey,
+    ),
+    body: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Titre: ${fetchedArticle?.titre ?? widget.article.titre}'),
             const SizedBox(height: 16),
-            Text('contenu : ${fetchedArticle?.contenu ?? widget.article.contenu}'),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 16),
+                  if ((fetchedArticle?.image != "") || (widget.article.image != ""))
+                    Image.asset(fetchedArticle?.image ?? widget.article.image),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 16),
+            MarkdownBody(
+              data: fetchedArticle?.contenu ?? widget.article.contenu,
+            ),
             const SizedBox(height: 16),
             GestureDetector(
               onTap: () {
@@ -93,8 +111,15 @@ class _ArticlePageState extends State<ArticlePage> {
             const SizedBox(height: 16),
             Text('Créé le: ${fetchedArticle?.createdAt.toString() ?? widget.article.createdAt.toString()}'),
           ],
+
         ),
       ),
-    );
-  }
+    ),
+
+  );
+}
+
+
+
+
 }

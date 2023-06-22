@@ -7,6 +7,7 @@ class Article {
   final DateTime createdAt;
   final String href;
   final String hrefAuteur;
+  final String image;
 
   Article({
     required this.id,
@@ -17,6 +18,7 @@ class Article {
     required this.createdAt,
     required this.href,
     required this.hrefAuteur,
+    required this.image,
   });
 
   factory Article.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class Article {
       href: json['links']['self']['href'] ?? '',
       hrefAuteur: json['href'] ?? '',
       createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : DateTime.now(),
+      image: '',
     );
   }
 }

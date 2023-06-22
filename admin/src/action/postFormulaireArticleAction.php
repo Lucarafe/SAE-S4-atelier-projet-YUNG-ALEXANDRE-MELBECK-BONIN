@@ -46,8 +46,8 @@ class postFormulaireArticleAction
         // Construit les données de l'article à partir des champs du formulaire
         $articleData = [
             'titre' => $article['titre'],
-            'resume' => "'''".$article['resume']."'''",
-            'contenu' => "'''".$article['contenu']."'''",
+            'resume' => $article['resume'],
+            'contenu' => $article['contenu'],
             'categorie' => $article['categorie'],
             'auteur' => $auteur['login'],
             'idAuteur' => $auteur['id'],

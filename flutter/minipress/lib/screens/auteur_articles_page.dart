@@ -45,6 +45,7 @@ class _AuthorArticlesPageState extends State<AuthorArticlesPage> {
           createdAt: createdAt,
           href: widget.article.href,
           hrefAuteur: widget.article.hrefAuteur,
+          image: '',
         );
       }).toList();
 

@@ -9,7 +9,7 @@ import {
 import {config} from "../conf/config.js";
 'use strict'
 
-// Fonction pour afficher les articles dans la liste
+// Fonction pour afficher les a rticles dans la liste
 export function displayArticles(filteredArticles, articleListe) {
     filteredArticles.forEach(art => {
         var article = art.article;
@@ -26,7 +26,6 @@ export function displayArticles(filteredArticles, articleListe) {
         title.textContent = article.titre;
         let conv = new showdown.Converter();
         resume.innerHTML = conv.makeHtml(article.resume);
-        console.log(resume.innerHTML)
         let dateObject = new Date(article.created_at);
 
         let readableDate = dateObject.toLocaleDateString('fr-FR', {
@@ -133,10 +132,13 @@ export function display_article(art) {
     div.className = 'articleDetail';
 
     // Créer un élément img pour afficher l'image de l'article
-    const img = document.createElement('img');
-    img.setAttribute('src', 'image/' + article.img.trim());
-    img.setAttribute('alt', 'Image de l\'article');
-    div.appendChild(img);
+    if(article.img.trim() !== ""){
+        const img = document.createElement('img');
+        img.setAttribute('src',  '/../' + article.img.trim());
+        img.setAttribute('alt', 'Image de l\'article');
+        div.appendChild(img);
+    }
+
     div.appendChild(hr);
     // Créer un élément div pour les détails de l'article
     const detailsDiv = document.createElement('div');
@@ -147,6 +149,7 @@ export function display_article(art) {
     title.textContent = article.titre;
     detailsDiv.appendChild(title);
     detailsDiv.appendChild(hr2);
+
     // Créer un élément p pour le contenu de l'article
     let conv = new showdown.Converter();
     const contenu = document.createElement('p');

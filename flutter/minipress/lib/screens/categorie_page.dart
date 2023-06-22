@@ -27,48 +27,54 @@ class _CategoriePageState extends State<CategoriePage> {
     return Consumer<ArticleProvider>(
       builder: (context, articleProvider, _) {
         print(widget.categorie.id);
-        return Scaffold(
-          appBar: AppBar(
-            title: Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    showSearch(
-                      context: context,
-                      delegate: ArticleSearchDelegate(
-                          articleProvider.filteredArticles),
-                    );
-                  },
-                  tooltip: 'Rechercher',
-                ),
-                Text(widget.categorie.titre),
-              ],
-            ),
-          ),
-          body: Container(
-            padding: EdgeInsets.all(16.0),
-            child: ListView.builder(
-                    itemCount: articleProvider.filteredArticles.length,
-                    itemBuilder: (context, index) {
-                      final article =
-                          articleProvider.filteredArticles[index];
-                      return ListTile(
-                        title: Text(article.titre),
-                        subtitle: Text(
-                            'Auteur: ${article.auteur} | Créé le: ${article.createdAt.year}-${article.createdAt.month}-${article.createdAt.day}'),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ArticlePage(article: article),
-                            ),
-                          );
-                        },
+        return WillPopScope(
+          onWillPop: () async {
+            Provider.of<ArticleProvider>(context, listen: false).fetchArticles();
+            return true;
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              title: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      showSearch(
+                        context: context,
+                        delegate: ArticleSearchDelegate(
+                            articleProvider.filteredArticles),
                       );
                     },
+                    tooltip: 'Rechercher',
                   ),
+                  Text(widget.categorie.titre),
+                ],
+              ),
+            ),
+            body: Container(
+              padding: EdgeInsets.all(16.0),
+              child: ListView.builder(
+                itemCount: articleProvider.filteredArticles.length,
+                itemBuilder: (context, index) {
+                  final article =
+                      articleProvider.filteredArticles[index];
+                  return ListTile(
+                    title: Text(article.titre),
+                    subtitle: Text(
+                        'Auteur: ${article.auteur} | Créé le: ${article.createdAt.year}-${article.createdAt.month}-${article.createdAt.day}'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ArticlePage(article: article),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
           ),
         );
       },

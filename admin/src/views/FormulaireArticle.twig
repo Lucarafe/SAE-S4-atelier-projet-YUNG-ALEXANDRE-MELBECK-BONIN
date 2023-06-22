@@ -8,15 +8,15 @@
         <form class="article-form" action="{{url_for("articleCreate")}}" method="post">
             <div class="form-group">
                 <label for="titre">Titre de l'article :</label>
-                <input type="text" name="titre" id="titre" value="Titre de l'article" onFocus="this.value='';" required>
+                <input type="text" name="titre" id="titre" required></input>
             </div>
             <div class="form-group">
                 <label for="resume">Résumé de l'article :</label>
-                <textarea name="resume" id="resume" rows="5" cols="30" onFocus="this.value='';" required>Résumé de l'article</textarea>
+                <textarea name="resume" id="resume" rows="5" cols="30" required></textarea>
             </div>
             <div class="form-group">
                 <label for="contenu">Contenu de l'article :</label>
-                <textarea name="contenu" id="contenu" rows="10" cols="30" onFocus="this.value='';" required>Contenu de l'article</textarea>
+                <textarea name="contenu" id="contenu" rows="10" cols="30" required></textarea>
             </div>
             <div class="form-group">
                 <label for="Categorie">Categorie :</label>
